@@ -469,7 +469,7 @@
   /* ---------- E1 Onboarding ---------- */
   SCREENS.onboarding = {
     render(p) {
-      const st = S.state;
+      const st = S.state, im = I.compute();
       return `
       <div class="onb">
         <div class="onb__top">
@@ -498,8 +498,8 @@
             <div class="onb__slide" aria-roledescription="diapositive">
               <div class="onb__art onb__art--3"><div class="onb__impact">
                 <span class="ff-overline" style="color:var(--text-on-ink);opacity:.7">Ton compteur</span>
-                <div class="big">3,2<small>&nbsp;kg</small></div>
-                <div class="row"><span class="ff-pill">${ic('euro', 14, 2.4)}12,80&nbsp;€</span><span class="ff-pill">${ic('cloud', 14, 2.4)}8&nbsp;kg CO₂e</span><span class="ff-pill">${ic('flame', 14, 2.4)}4&nbsp;jours</span></div>
+                <div class="big">${F.kg(im.kg)}<small>&nbsp;kg</small></div>
+                <div class="row"><span class="ff-pill">${ic('euro', 14, 2.4)}${F.eur(im.eur)}&nbsp;€</span><span class="ff-pill">${ic('cloud', 14, 2.4)}${F.kg(im.co2)}&nbsp;kg CO₂e</span><span class="ff-pill">${ic('flame', 14, 2.4)}${im.streak}&nbsp;jour${im.streak > 1 ? 's' : ''}</span></div>
               </div></div>
               <div class="onb__text"><h2 class="ff-h1">Sauve ta bouffe, ton budget, <span class="ff-mark">la planète</span></h2>
                 <p>Chaque recette cuisinée fait grimper ton compteur&nbsp;: kilos, euros et CO₂ évités.</p></div>
@@ -709,7 +709,7 @@
         const fr = S.frigo(flash.frigo);
         $('#ing-title', el).innerHTML = fr.vide
           ? `${n} trouvé${s}… <span class="ff-mark">c’est maigre</span>&nbsp;🕸️`
-          : urgent ? `${n} trouvé${s}, <span class="ff-mark">${urgent} à sauver vite</span>`
+          : urgent ? `${n} trouvé${s}, <span class="ff-mark">${urgent}&nbsp;à sauver&nbsp;vite</span>`
             : `${n} trouvé${s}, <span class="ff-mark">rien d’urgent</span>`;
         $('#chips', el).innerHTML = list.map((x, k) => {
           const isU = !x.removed && x.urgence === 'haute', isM = !x.removed && x.urgence === 'moyenne';

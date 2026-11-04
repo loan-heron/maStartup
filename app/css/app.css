@@ -87,7 +87,7 @@ kbd { font-family: var(--font-body); font-size: 12px; font-weight: var(--fw-bold
 .onb__viewport { flex: 1; overflow: hidden; position: relative; touch-action: pan-y; }
 .onb__track { display: flex; height: 100%; transition: transform var(--dur-3) var(--ease-out); }
 .onb__slide { flex: 0 0 100%; height: 100%; padding: 0 var(--gutter); display: flex; flex-direction: column; overflow-y: auto; scrollbar-width: none; }
-.onb__art { position: relative; height: 330px; flex: none; border-radius: var(--r-xl); display: grid; place-items: center; overflow: hidden; margin-bottom: var(--sp-6); }
+.onb__art { position: relative; flex: 1 1 330px; min-height: 280px; max-height: 460px; border-radius: var(--r-xl); display: grid; place-items: center; overflow: hidden; margin-bottom: var(--sp-6); }
 .onb__art--1 { background: var(--ff-flash-100); }
 .onb__art--2 { background: var(--ff-menthe-100); }
 .onb__art--3 { background: var(--surface-ink); }
@@ -104,7 +104,7 @@ kbd { font-family: var(--font-body); font-size: 12px; font-weight: var(--fw-bold
 .onb__impact .big small { font-size: 32px; }
 .onb__impact .row { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
 .onb__impact .ff-pill { background: rgba(255,248,236,.1); color: var(--text-on-ink); }
-.onb__text { display: grid; gap: var(--sp-3); }
+.onb__text { display: grid; gap: var(--sp-3); padding-bottom: var(--sp-2); }
 .onb__text p { margin: 0; color: var(--text-muted); }
 .onb__setup { display: grid; gap: var(--sp-5); padding-top: var(--sp-2); padding-bottom: var(--sp-6); }
 .onb__setup .ff-overline { margin-bottom: 8px; }
@@ -206,7 +206,7 @@ kbd { font-family: var(--font-body); font-size: 12px; font-weight: var(--fw-bold
 .ff-chip:active { transform: scale(.95); }
 .ff-chip.is-in { animation: chip-in var(--dur-2) var(--ease-out) both; }
 @keyframes chip-in { from { opacity: 0; transform: translateY(8px) scale(.94); } }
-.ff-chip__tag { display: inline-flex; align-items: center; gap: 3px; font-size: 12px; font-weight: var(--fw-bold); }
+.ff-chip .ff-chip__tag { display: inline-flex; align-items: center; gap: 3px; font-size: 13px; font-weight: var(--fw-bold); }
 .chip-soon { color: var(--text-muted); }
 .ff-chip--removed .ff-chip__emoji { filter: grayscale(1); opacity: .6; }
 .ff-chip--added { border-color: var(--ff-encre-900); }
