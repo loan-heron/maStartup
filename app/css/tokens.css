@@ -1,0 +1,128 @@
+/* =====================================================================
+   FrigoFlash — Design tokens v1.0  (DA, étape 2 · 4 nov. 2026)
+   Importer en premier :  <link rel="stylesheet" href="tokens.css">
+   Polices embarquées (dossier fonts/) : l'app marche en file:// et hors ligne.
+   ===================================================================== */
+
+@font-face {
+  font-family: "Bricolage Grotesque";
+  src: url("fonts/bricolage-grotesque-latin.woff2") format("woff2");
+  font-weight: 200 800; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: "DM Sans";
+  src: url("fonts/dm-sans-latin.woff2") format("woff2");
+  font-weight: 100 1000; font-style: normal; font-display: swap;
+}
+
+:root {
+  /* ---------- Couleurs de marque ---------- */
+  --ff-flash-50:  #FFFAE0;
+  --ff-flash-100: #FFF3B0;
+  --ff-flash-400: #FFD60A;   /* JAUNE ÉCLAIR : signature. Texte TOUJOURS encre dessus */
+  --ff-flash-500: #F2C500;   /* état pressé */
+  --ff-flash-700: #7A5E00;   /* texte « jaune » lisible sur fond clair */
+
+  --ff-menthe-100: #DDF8EC;
+  --ff-menthe-400: #3DDBA0;  /* fraîcheur, succès, « sauvé » */
+  --ff-menthe-700: #0A7D5C;  /* texte vert sur fond clair */
+
+  --ff-corail-100: #FFE6DE;
+  --ff-corail-400: #FF6B4A;  /* urgence « à manger vite » (jamais seule : + icône + texte) */
+  --ff-corail-700: #B5371D;  /* texte urgence sur fond clair */
+
+  --ff-encre-900: #16171D;   /* texte principal, logo */
+  --ff-encre-700: #2B2D36;
+  --ff-gris-600:  #5E5A52;   /* texte secondaire */
+  --ff-gris-400:  #8A847A;   /* décoratif, placeholders (pas pour du texte < 18 px) */
+  --ff-gris-200:  #E9E1D2;   /* bordures */
+  --ff-gris-100:  #F3ECDF;   /* fonds de champs, pistes */
+  --ff-creme-50:  #FFF8EC;   /* fond de l'app */
+  --ff-blanc:     #FFFFFF;   /* cartes */
+
+  /* ---------- Rôles (à utiliser dans le code) ---------- */
+  --bg:            var(--ff-creme-50);
+  --surface:       var(--ff-blanc);
+  --surface-2:     var(--ff-gris-100);
+  --surface-ink:   var(--ff-encre-900);      /* cartes sombres (compteur héros) */
+  --text:          var(--ff-encre-900);
+  --text-muted:    var(--ff-gris-600);
+  --text-subtle:   var(--ff-gris-400);
+  --text-on-ink:   #FFF8EC;
+  --border:        var(--ff-gris-200);
+  --primary:       var(--ff-flash-400);
+  --primary-press: var(--ff-flash-500);
+  --on-primary:    var(--ff-encre-900);
+  --accent:        var(--ff-menthe-400);
+  --success:       var(--ff-menthe-700);
+  --success-bg:    var(--ff-menthe-100);
+  --urgent:        var(--ff-corail-700);
+  --urgent-fill:   var(--ff-corail-400);
+  --urgent-bg:     var(--ff-corail-100);
+  --focus:         #2F6BFF;                  /* anneau de focus, distinct de la palette */
+
+  /* ---------- Dataviz (présentation + courbe E8) ---------- */
+  --dv-1: var(--ff-flash-400);   /* kg / série principale */
+  --dv-2: var(--ff-menthe-400);  /* € */
+  --dv-3: var(--ff-corail-400);  /* CO₂ / urgence */
+  --dv-4: var(--ff-encre-900);   /* repas / référence */
+  --dv-5: #9B8CFF;               /* 5e série si besoin, rare */
+
+  /* ---------- Typographie ---------- */
+  --font-display: "Bricolage Grotesque", "DM Sans", system-ui, sans-serif;
+  --font-body:    "DM Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* échelle mobile (taille / interligne) */
+  --fs-display: 44px;  --lh-display: 1.0;   /* chiffres héros, splash */
+  --fs-h1:      32px;  --lh-h1: 1.05;       /* titre d'écran */
+  --fs-h2:      24px;  --lh-h2: 1.15;       /* titre de section, titre recette */
+  --fs-h3:      19px;  --lh-h3: 1.2;        /* titre de carte */
+  --fs-body:    16px;  --lh-body: 1.5;      /* texte courant (min. 16 px) */
+  --fs-small:   14px;  --lh-small: 1.4;     /* méta : temps, niveau */
+  --fs-caption: 12px;  --lh-caption: 1.3;   /* labels d'onglets, unités ; jamais pour une info critique */
+  --fw-regular: 400; --fw-medium: 500; --fw-bold: 700; --fw-black: 800;
+  --ls-display: -0.03em;  --ls-title: -0.015em;  --ls-caps: 0.06em;
+
+  /* ---------- Espacements (base 4) ---------- */
+  --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px; --sp-5: 20px;
+  --sp-6: 24px; --sp-8: 32px; --sp-10: 40px; --sp-12: 48px;
+  --gutter: 20px;           /* marge latérale des écrans */
+  --tap: 48px;              /* zone tactile mini (≥ 44 px) */
+
+  /* ---------- Rayons ---------- */
+  --r-xs: 8px; --r-sm: 12px; --r-md: 16px; --r-lg: 24px; --r-xl: 32px; --r-pill: 999px;
+
+  /* ---------- Ombres (chaudes, jamais grises) ---------- */
+  --sh-1: 0 1px 2px rgba(22,23,29,.06), 0 2px 8px rgba(22,23,29,.05);
+  --sh-2: 0 4px 12px rgba(22,23,29,.08), 0 12px 32px rgba(22,23,29,.08);
+  --sh-3: 0 12px 40px rgba(22,23,29,.18);
+  --sh-flash: 0 6px 0 var(--ff-encre-900), 0 14px 30px rgba(242,197,0,.45); /* bouton Flash « surélevé » */
+  --sh-press: 0 2px 0 var(--ff-encre-900);
+
+  /* ---------- Bordures ---------- */
+  --bw: 2px;   /* trait encre des éléments « pop » (bouton Flash, chips actives) */
+
+  /* ---------- Motion ---------- */
+  --ease-out:    cubic-bezier(.22,1,.36,1);     /* entrées */
+  --ease-in-out: cubic-bezier(.65,0,.35,1);     /* déplacements */
+  --ease-spring: cubic-bezier(.34,1.56,.64,1);  /* rebond (tap Flash, cartes) */
+  --dur-1: 120ms; --dur-2: 220ms; --dur-3: 360ms; --dur-4: 600ms;
+
+  /* ---------- Layout ---------- */
+  --screen-w: 390px; --screen-h: 844px;
+  --tabbar-h: 84px;  --statusbar-h: 47px;
+}
+
+/* ---------- Mode sombre (optionnel, prévu dans les tokens) ---------- */
+[data-theme="dark"] {
+  --bg: #121318; --surface: #1C1D24; --surface-2: #262832; --surface-ink: #0B0C10;
+  --text: #F4F1EA; --text-muted: #A9A59C; --text-subtle: #7C786F; --text-on-ink: #F4F1EA;
+  --border: #33353F;
+  --success: var(--ff-menthe-400); --success-bg: rgba(61,219,160,.14);
+  --urgent: #FF8A6E; --urgent-bg: rgba(255,107,74,.16);
+  --dv-4: #F4F1EA;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root { --dur-1: 0ms; --dur-2: 0ms; --dur-3: 0ms; --dur-4: 0ms; }
+}

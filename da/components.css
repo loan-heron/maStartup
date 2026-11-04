@@ -107,7 +107,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 /* ---------- Chips d'ingrédients (E5) ---------- */
 .ff-chips { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
 .ff-chip {
-  display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 12px 0 10px;
+  display: inline-flex; align-items: center; gap: 6px; min-height: 44px; padding: 0 12px 0 10px;
   border-radius: var(--r-pill); border: 1.5px solid var(--border); background: var(--surface);
   font-weight: var(--fw-medium); font-size: 15px; color: var(--text);
 }
@@ -120,7 +120,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .ff-chip--selected { background: var(--ff-encre-900); border-color: var(--ff-encre-900); color: var(--ff-creme-50); }
 
 /* ---------- Pastilles / badges ---------- */
-.ff-pill { display: inline-flex; align-items: center; gap: 4px; height: 26px; padding: 0 10px; border-radius: var(--r-pill); font-size: 13px; font-weight: var(--fw-bold); white-space: nowrap; }
+.ff-pill { display: inline-flex; align-items: center; gap: 4px; height: 28px; padding: 0 10px; border-radius: var(--r-pill); font-size: 14px; font-weight: var(--fw-bold); white-space: nowrap; }
 .ff-pill--save { background: var(--success-bg); color: var(--success); }
 .ff-pill--full { background: var(--ff-encre-900); color: var(--primary); }
 .ff-pill--missing { background: var(--surface-2); color: var(--text-muted); }
@@ -133,7 +133,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .ff-recipe__visual { position: relative; aspect-ratio: 9 / 5; display: grid; place-items: center; overflow: hidden; }
 .ff-recipe__visual img, .ff-recipe__visual svg { width: 100%; height: 100%; object-fit: cover; }
 .ff-recipe__rank { position: absolute; top: 12px; left: 12px; }
-.ff-recipe__fav { position: absolute; top: 10px; right: 10px; width: 40px; height: 40px; border-radius: 50%; border: 0; background: rgba(255,255,255,.92); display: grid; place-items: center; }
+.ff-recipe__fav { position: absolute; z-index: 2; top: 8px; right: 8px; width: 44px; height: 44px; border-radius: 50%; border: 0; background: rgba(255,255,255,.92); display: grid; place-items: center; }
 .ff-recipe__body { padding: var(--sp-4); display: grid; gap: var(--sp-2); }
 .ff-recipe__metas { display: flex; gap: var(--sp-4); flex-wrap: wrap; }
 .ff-recipe__pills { display: flex; gap: var(--sp-2); flex-wrap: wrap; }
@@ -176,7 +176,7 @@ button { font: inherit; color: inherit; cursor: pointer; }
 
 /* ---------- Segmented / choix du régime ---------- */
 .ff-segment { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
-.ff-segment button { min-height: 40px; padding: 0 14px; border-radius: var(--r-pill); border: 1.5px solid var(--border); background: var(--surface); font-weight: var(--fw-medium); font-size: 15px; }
+.ff-segment button { min-height: 44px; padding: 0 14px; border-radius: var(--r-pill); border: 1.5px solid var(--border); background: var(--surface); font-weight: var(--fw-medium); font-size: 15px; }
 .ff-segment button[aria-pressed="true"] { background: var(--ff-encre-900); border-color: var(--ff-encre-900); color: var(--ff-creme-50); font-weight: var(--fw-bold); }
 
 /* ---------- Champ texte ---------- */
@@ -216,3 +216,15 @@ button { font: inherit; color: inherit; cursor: pointer; }
   *, *::before, *::after { animation-duration: 1ms !important; animation-iteration-count: 1 !important; transition-duration: 1ms !important; }
   .ff-scan__line { top: 50%; }
 }
+
+/* ---------- Ajouts revue critique (étape 2) ---------- */
+/* Carte recette cliquable sans imbriquer le bouton favori dans un lien :
+   <article class="ff-recipe"> … <h3><a class="ff-recipe__link" href="#/recette/riz">Titre</a></h3> …
+   Le ::after étire le lien sur toute la carte ; .ff-recipe__fav (z-index 2) reste cliquable au-dessus. */
+.ff-recipe__link { color: inherit; text-decoration: none; }
+.ff-recipe__link::after { content: ""; position: absolute; inset: 0; z-index: 1; border-radius: inherit; }
+.ff-recipe__link:focus-visible { outline: none; }
+.ff-recipe:has(.ff-recipe__link:focus-visible) { outline: 3px solid var(--focus); outline-offset: 3px; }
+.ff-recipe__visual img { object-position: center; }
+/* Lien texte « Voir tout » : zone tactile 44 px */
+.ff-textlink { display: inline-flex; align-items: center; min-height: 44px; padding: 0 4px; font-size: var(--fs-small); font-weight: var(--fw-bold); color: var(--text); }

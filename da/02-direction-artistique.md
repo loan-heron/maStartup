@@ -2,6 +2,7 @@
 
 > Étape 2 du pipeline (analyse → **DA** → dev → présentation). 4 novembre 2026.
 > Source : `../01-analyse.md` (v2) et `../01-analyse-critique.md`. Piste retenue : **« l'éclair d'abord »** (recommandée par la critique).
+> **Revue critique faite** : voir `02-critique.md` (corrections déjà appliquées aux CSS et maquettes).
 > Vue d'ensemble visuelle : ouvrir **`styleguide.html`** dans un navigateur. Aperçus PNG des maquettes : `apercus/`.
 
 ---
@@ -120,7 +121,7 @@ Style **flat, contour encre 3 px**, couleurs de la palette, aucune photo, pas de
 |---|---|---|
 | Cadre téléphone | `.ff-stage > .ff-phone > .ff-screen` | 390 × 844 sur ordi, plein écran sous 440 px |
 | **Bouton Flash** (signature) | `.ff-flash` | Jaune, contour encre, ombre dure 6 px. Au tap : `.is-flashing` (voile blanc 600 ms) |
-| Boutons | `.ff-btn`, `--dark`, `--secondary`, `--ghost`, `--block`, `--lg` | Zone tactile ≥ 48 px, s'enfoncent de 2 px |
+| Boutons | `.ff-btn`, `--dark`, `--secondary`, `--ghost`, `--block`, `--lg` | Zone tactile ≥ 48 px (≥ 44 px pour chips, favoris, régime, liens texte), s'enfoncent de 2 px |
 | Barre d'onglets | `.ff-tabbar`, `.ff-tab`, `.ff-tab-flash` | Accueil · [Flash surélevé] · Impact ; onglet actif `aria-current="page"` |
 | Chips ingrédients | `.ff-chip`, `--urgent`, `--removed`, `--add`, `--selected` | Urgent = corail + sablier + « vite » ; retiré = barré + pointillés |
 | Pastilles | `.ff-pill--save`, `--full`, `--missing`, `--urgent`, `--flash` | « Sauve 3 aliments », « 100 % ton frigo », « Manque : farine » |
@@ -155,9 +156,9 @@ Courbes : `--ease-out` `cubic-bezier(.22,1,.36,1)` · `--ease-spring` `cubic-bez
 
 HTML statique 390 × 844, uniquement à partir des tokens et des composants. Données = parcours démo de l'analyse (Inès, frigo étudiant).
 
-- **E2 Accueil** : « Salut Inès », titre « On sauve quoi *ce soir* ? », gros bouton Flash, rappel « À manger vite d'après ton flash d'hier », bandeau du mois (3,2 kg · 12,80 € · 12 repas), favoris en carrousel, derniers flashs.
+- **E2 Accueil** : « Salut Inès », titre « On sauve quoi *ce soir* ? », gros bouton Flash, rappel « À manger vite d'après ton dernier flash », bandeau du mois (3,2 kg · 12,80 € · 12 repas), favoris en carrousel, derniers flashs.
 - **E6 3 recettes** : « 3 idées, *0 courses.* », pastilles « Priorité : courgette » et régime ; carte n° 1 en grand (« Meilleur anti-gaspi », sauve 3 aliments · 650 g, 100 % ton frigo), n° 2 et n° 3 en compact (la 3ᵉ affiche « Manque : farine »), bouton « Autres idées ».
-- **E8 Impact** : carte héros encre 3,2 kg + « +650 g ce soir », histogramme sur 4 semaines (0,6 · 0,9 · 1,05 · 0,65 = 3,2 kg), tuiles € / CO₂e / repas / série, sources sous les chiffres (4 €/kg ADEME, 2,5 kg CO₂e/kg FAO 2013), série de la semaine, 3 badges dont 2 verrouillés, réglages (régime, allergies, réinitialiser la démo).
+- **E8 Impact** : carte héros encre 3,2 kg + « +650 g ce soir », histogramme sur 4 semaines (0,5 · 0,65 · 0,8 · 1,25 = 3,2 kg ; la semaine en cours est la plus haute car Inès a cuisiné 4 soirs de suite), tuiles € / CO₂e / repas / série, sources sous les chiffres (4 €/kg ADEME, 2,5 kg CO₂e/kg FAO 2013), série de la semaine, 3 badges dont 2 verrouillés, réglages (régime, allergies, réinitialiser la démo).
 
 Chiffres cohérents avec l'analyse v2 : 3,2 kg × 4 € = 12,80 € ; 3,2 kg × 2,5 = 8,0 kg CO₂e.
 

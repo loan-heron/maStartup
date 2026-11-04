@@ -13,7 +13,7 @@
   .nudge { display:flex; gap:12px; align-items:center; padding:12px 14px; border-radius:var(--r-md); background:var(--urgent-bg); color:var(--text); }
   .nudge__icon { flex:none; width:36px; height:36px; border-radius:50%; background:var(--urgent-fill); border:2px solid var(--ff-encre-900); display:grid; place-items:center; }
   .section-head { display:flex; justify-content:space-between; align-items:baseline; margin: 28px 0 12px; }
-  .section-head a { font-size:14px; font-weight:700; color:var(--text); }
+  .section-head a { font-size:14px; font-weight:700; color:var(--text); display:inline-flex; align-items:center; min-height:44px; padding:0 4px; margin-right:-4px; }
   .rail { display:grid; grid-auto-flow:column; grid-auto-columns: 78%; gap:12px; overflow-x:auto; margin:0 calc(-1 * var(--gutter)); padding:4px var(--gutter) 12px; scrollbar-width:none; }
   .history { display:flex; align-items:center; gap:12px; padding:10px 14px 10px 10px; }
   .history img { width:46px; height:56px; object-fit:contain; }
@@ -44,7 +44,7 @@
 
         <div class="nudge" style="margin-top:22px">
           <span class="nudge__icon"><i data-icon="hourglass" data-size="18" data-stroke="2.4"></i></span>
-          <div class="ff-small"><b style="color:var(--urgent)">À manger vite</b> d'après ton flash d'hier : 🥒 courgette, 🥛 yaourt</div>
+          <div class="ff-small"><b style="color:var(--urgent)">À manger vite</b> d'après ton dernier flash : 🥒 courgette, 🥛 yaourt</div>
         </div>
 
         <div class="section-head"><h2 class="ff-h3">Ce mois-ci</h2><a href="E8-impact.html">Voir tout</a></div>

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#FFD60A">
+<meta name="description" content="FrigoFlash : prends ton frigo en photo, reçois 3 recettes anti-gaspi. Prototype en mode démo.">
+<title>FrigoFlash</title>
+<link rel="icon" href="assets/logo/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="assets/logo/icone-app.svg">
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<div class="ff-stage">
+
+  <!-- Panneau visible seulement sur grand écran : aide les présentateurs pendant la soutenance -->
+  <aside class="demo-panel" aria-label="Aide à la démo">
+    <img class="demo-panel__logo" src="assets/logo/logo-horizontal.svg" alt="FrigoFlash">
+    <p class="demo-panel__tag">Un flash. Trois recettes. <span class="ff-mark">Zéro gâchis.</span></p>
+    <ol>
+      <li>Touche « Flasher mon frigo »</li>
+      <li>Choisis le frigo étudiant (ou importe une photo)</li>
+      <li>Retire la bière : l’IA s’est « trompée »</li>
+      <li>Ouvre le riz sauté, puis « J’ai cuisiné ça ! »</li>
+      <li>Regarde ton impact grimper</li>
+    </ol>
+    <p class="demo-panel__note">Prototype en mode démo : aucune IA n’est appelée, les analyses sont simulées et tout reste dans ce navigateur. <kbd>Échap</kbd> pour revenir en arrière.</p>
+    <div class="demo-panel__actions">
+      <button class="ff-btn ff-btn--secondary" type="button" data-panel="reset"><i data-icon="rotate-ccw" data-size="18"></i>Réinitialiser la démo</button>
+    </div>
+  </aside>
+
+  <div class="ff-phone" id="phone">
+    <div class="statusbar ff-statusbar" id="statusbar" aria-hidden="true">
+      <span id="clock">19:04</span>
+      <span class="ff-statusbar__icons"><span class="sb-signal"><i style="height:4px"></i><i style="height:6px"></i><i style="height:8px"></i><i style="height:11px"></i></span><span style="font-size:13px">5G</span><span class="sb-battery"></span></span>
+    </div>
+
+    <div class="screens" id="screens"></div>
+
+    <nav class="ff-tabbar is-hidden" id="tabbar" aria-label="Navigation principale">
+      <button class="ff-tab" type="button" data-action="tab" data-tab="home"><i data-icon="house"></i>Accueil<span class="ff-tab__dot"></span></button>
+      <button class="ff-tab-flash" type="button" data-action="flash" aria-label="Flasher mon frigo"><i data-icon="zap" data-size="30" data-stroke="2.4"></i></button>
+      <button class="ff-tab" type="button" data-action="tab" data-tab="impact"><i data-icon="chart-no-axes-column"></i>Impact<span class="ff-tab__dot"></span></button>
+    </nav>
+
+    <div class="toasts" id="toasts" role="status" aria-live="polite"></div>
+  </div>
+</div>
+
+<script src="js/icons.js"></script>
+<script src="js/data.js"></script>
+<script src="js/store.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
