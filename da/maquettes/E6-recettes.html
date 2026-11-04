@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FrigoFlash · E6 Recettes</title>
+<link rel="icon" href="../logo/favicon.svg">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../components.css">
+<style>
+  .head { padding: 0 var(--gutter); }
+  .context { display:flex; gap:8px; flex-wrap:wrap; margin:14px 0 18px; }
+  .cards { display:grid; gap:14px; padding: 0 var(--gutter); }
+  .ff-recipe__visual img { width:100%; height:100%; object-fit:cover; }
+  .uses { font-size:14px; color:var(--text-muted); }
+  .uses b { color:var(--text); }
+  .card-cta { display:flex; justify-content:space-between; align-items:center; margin-top:4px; }
+  .go { width:40px; height:40px; border-radius:50%; background:var(--ff-encre-900); color:var(--primary); display:grid; place-items:center; }
+</style>
+</head>
+<body>
+<div class="ff-stage">
+  <div class="ff-phone">
+    <div class="ff-screen">
+      <div class="ff-statusbar"><span>19:05</span><span class="ff-statusbar__icons">●●● 5G ▮</span></div>
+      <header class="ff-topbar">
+        <button class="ff-icon-btn" aria-label="Retour"><i data-icon="chevron-left"></i></button>
+        <span class="ff-overline">Frigo étudiant · 7 ingrédients</span>
+        <button class="ff-icon-btn" aria-label="Filtres"><i data-icon="sliders-horizontal" data-size="20"></i></button>
+      </header>
+
+      <div class="head">
+        <h1 class="ff-h1">3 idées, <span class="ff-mark">0 courses.</span></h1>
+        <div class="context">
+          <span class="ff-pill ff-pill--urgent"><i data-icon="hourglass" data-size="14" data-stroke="2.4"></i>Priorité : courgette</span>
+          <span class="ff-pill ff-pill--missing">Régime : aucun</span>
+        </div>
+      </div>
+
+      <div class="cards">
+        <article class="ff-recipe ff-reveal">
+          <div class="ff-recipe__visual"><img src="../illustrations/recettes/riz-saute-oeufs-courgette.svg" alt="">
+            <span class="ff-recipe__rank ff-pill ff-pill--flash" style="border:2px solid #16171D"><i data-icon="zap" data-size="14" data-stroke="2.6"></i>Meilleur anti-gaspi</span>
+            <button class="ff-recipe__fav" aria-label="Ajouter aux favoris"><i data-icon="heart" data-size="20"></i></button>
+          </div>
+          <div class="ff-recipe__body">
+            <h2 class="ff-h3">Riz sauté aux œufs et courgette</h2>
+            <div class="ff-recipe__metas"><span class="ff-meta"><i data-icon="clock" data-size="16"></i>15 min</span><span class="ff-meta"><i data-icon="chef-hat" data-size="16"></i>Facile</span></div>
+            <div class="ff-recipe__pills"><span class="ff-pill ff-pill--save"><i data-icon="leaf" data-size="14" data-stroke="2.4"></i>Sauve 3 aliments · 650 g</span><span class="ff-pill ff-pill--full"><i data-icon="check" data-size="14" data-stroke="3"></i>100 % ton frigo</span></div>
+          </div>
+        </article>
+
+        <article class="ff-recipe ff-recipe--compact ff-reveal">
+          <div class="ff-recipe__visual"><img src="../illustrations/recettes/omelette-courgette-fromage.svg" alt=""></div>
+          <div class="ff-recipe__body">
+            <div style="display:flex;justify-content:space-between;align-items:center"><span class="ff-overline">Idée 2</span><button class="ff-recipe__fav" style="position:static;width:36px;height:36px;margin:-6px -6px -6px 0;background:var(--surface-2)" aria-label="Ajouter aux favoris"><i data-icon="heart" data-size="18"></i></button></div>
+            <h2 class="ff-h3" style="font-size:17px">Omelette courgette-fromage</h2>
+            <div class="ff-recipe__metas"><span class="ff-meta"><i data-icon="clock" data-size="16"></i>10 min</span><span class="ff-meta"><i data-icon="chef-hat" data-size="16"></i>Facile</span></div>
+            <div class="ff-recipe__pills" style="margin-top:4px"><span class="ff-pill ff-pill--save"><i data-icon="leaf" data-size="14" data-stroke="2.4"></i>Sauve 2</span><span class="ff-pill ff-pill--full"><i data-icon="check" data-size="14" data-stroke="3"></i>100 %</span></div>
+          </div>
+        </article>
+
+        <article class="ff-recipe ff-recipe--compact ff-reveal">
+          <div class="ff-recipe__visual"><img src="../illustrations/recettes/galettes-riz-croustillantes.svg" alt=""></div>
+          <div class="ff-recipe__body">
+            <div style="display:flex;justify-content:space-between;align-items:center"><span class="ff-overline">Idée 3</span><button class="ff-recipe__fav" style="position:static;width:36px;height:36px;margin:-6px -6px -6px 0;background:var(--surface-2)" aria-label="Ajouter aux favoris"><i data-icon="heart" data-size="18"></i></button></div>
+            <h2 class="ff-h3" style="font-size:17px">Galettes de riz croustillantes</h2>
+            <div class="ff-recipe__metas"><span class="ff-meta"><i data-icon="clock" data-size="16"></i>25 min</span><span class="ff-meta"><i data-icon="chef-hat" data-size="16"></i>Moyen</span></div>
+            <div class="ff-recipe__pills" style="margin-top:4px"><span class="ff-pill ff-pill--save"><i data-icon="leaf" data-size="14" data-stroke="2.4"></i>Sauve 2</span><span class="ff-pill ff-pill--missing"><i data-icon="shopping-basket" data-size="14"></i>Manque : farine</span></div>
+          </div>
+        </article>
+
+        <button class="ff-btn ff-btn--secondary ff-btn--block" style="margin-top:4px"><i data-icon="rotate-ccw" data-size="18"></i>Autres idées</button>
+      </div>
+    </div>
+
+    <nav class="ff-tabbar" aria-label="Navigation">
+      <button class="ff-tab"><i data-icon="house"></i>Accueil<span class="ff-tab__dot"></span></button>
+      <button class="ff-tab-flash" aria-label="Flasher mon frigo"><i data-icon="zap" data-size="30" data-stroke="2.4"></i></button>
+      <button class="ff-tab"><i data-icon="chart-no-axes-column"></i>Impact<span class="ff-tab__dot"></span></button>
+    </nav>
+  </div>
+</div>
+<script src="../icons/icons.js"></script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FrigoFlash · E8 Impact</title>
+<link rel="icon" href="../logo/favicon.svg">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../components.css">
+<style>
+  .hero { position:relative; overflow:hidden; padding:20px; border-radius:var(--r-lg); }
+  .hero__value { font-family:var(--font-display); font-weight:800; font-size:64px; line-height:.95; letter-spacing:-0.04em; font-variant-numeric:tabular-nums; color:var(--primary); }
+  .hero__value small { font-size:28px; letter-spacing:-0.01em; }
+  .hero__rays { position:absolute; right:18px; top:16px; }
+  .chart { margin-top:16px; }
+  .chart text { font-family:var(--font-body); font-size:12px; font-weight:700; fill:rgba(255,248,236,.72); }
+  .chart .v { fill:#FFF8EC; font-size:13px; }
+  h2.sec { margin:28px 0 12px; }
+  .eq { font-size:13px; color:var(--text-muted); margin-top:10px; }
+</style>
+</head>
+<body>
+<div class="ff-stage">
+  <div class="ff-phone">
+    <div class="ff-screen">
+      <div class="ff-statusbar"><span>19:31</span><span class="ff-statusbar__icons">●●● 5G ▮</span></div>
+      <header class="ff-topbar">
+        <div><div class="ff-overline">Novembre</div><h1 class="ff-h1">Ton impact</h1></div>
+        <button class="ff-icon-btn" aria-label="Partager"><i data-icon="share-2" data-size="20"></i></button>
+      </header>
+
+      <main class="ff-pad">
+        <section class="ff-card--ink hero">
+          <svg class="hero__rays" width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="#FFD60A" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 12l6-6M10 20h10M2 8V1"/></svg>
+          <div style="font-weight:700;font-size:14px;opacity:.8">Nourriture sauvée de la poubelle</div>
+          <div class="hero__value">3,2<small> kg</small></div>
+          <div style="margin-top:6px;font-size:14px"><span class="ff-pill" style="background:rgba(61,219,160,.18);color:#3DDBA0;height:24px">+650 g ce soir</span></div>
+          <!-- 4 dernières semaines, kg sauvés : barres jaunes, semaine en cours hachurée -->
+          <svg class="chart" viewBox="0 -14 310 144" width="100%" role="img" aria-label="Kilos sauvés par semaine : S1 0,6 kg, S2 0,9 kg, S3 1,05 kg, cette semaine 0,65 kg">
+            <defs><pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="6" height="6" fill="#FFD60A"/><path d="M0 0v6" stroke="#16171D" stroke-width="2.4"/></pattern></defs>
+            <path d="M0 104H310" stroke="rgba(255,248,236,.18)"/>
+            <g stroke="#16171D" stroke-width="0">
+              <rect x="14"  y="47" width="52" height="57" rx="10" fill="#FFD60A"/>
+              <rect x="92"  y="19" width="52" height="85" rx="10" fill="#FFD60A"/>
+              <rect x="170" y="5"  width="52" height="99" rx="10" fill="#FFD60A"/>
+              <rect x="248" y="43" width="52" height="61" rx="10" fill="url(#hatch)"/>
+            </g>
+            <text class="v" x="40" y="40" text-anchor="middle">0,6</text><text class="v" x="118" y="13" text-anchor="middle">0,9</text><text class="v" x="196" y="-1" text-anchor="middle">1,05</text><text class="v" x="274" y="36" text-anchor="middle">0,65</text>
+            <text x="40" y="122" text-anchor="middle">S1</text><text x="118" y="122" text-anchor="middle">S2</text><text x="196" y="122" text-anchor="middle">S3</text><text x="274" y="122" text-anchor="middle" style="fill:#FFD60A">Cette sem.</text>
+          </svg>
+        </section>
+
+        <div class="ff-stats" style="margin-top:12px">
+          <div class="ff-stat ff-stat--eur"><span class="ff-stat__icon"><i data-icon="euro" data-size="20" data-stroke="2.4"></i></span><span class="ff-stat__value">12,80<span class="ff-stat__unit">€</span></span><span class="ff-stat__label">économisés</span></div>
+          <div class="ff-stat ff-stat--co2"><span class="ff-stat__icon"><i data-icon="cloud" data-size="20" data-stroke="2.4"></i></span><span class="ff-stat__value">8,0<span class="ff-stat__unit">kg</span></span><span class="ff-stat__label">CO₂e évités</span></div>
+          <div class="ff-stat ff-stat--meals"><span class="ff-stat__icon"><i data-icon="utensils" data-size="20" data-stroke="2.4"></i></span><span class="ff-stat__value">12</span><span class="ff-stat__label">repas cuisinés</span></div>
+          <div class="ff-stat ff-stat--kg"><span class="ff-stat__icon"><i data-icon="flame" data-size="20" data-stroke="2.4"></i></span><span class="ff-stat__value">4<span class="ff-stat__unit">jours</span></span><span class="ff-stat__label">de série</span></div>
+        </div>
+        <p class="eq">≈ 4 € par kg sauvé (ADEME) · 2,5 kg CO₂e par kg (FAO 2013)</p>
+
+        <h2 class="ff-h3 sec">Ta série 🔥</h2>
+        <div class="ff-card">
+          <div class="ff-streak">
+            <div class="ff-streak__day is-done"><span class="ff-streak__dot"><i data-icon="check" data-size="16" data-stroke="3"></i></span>L</div>
+            <div class="ff-streak__day is-done"><span class="ff-streak__dot"><i data-icon="check" data-size="16" data-stroke="3"></i></span>M</div>
+            <div class="ff-streak__day is-done"><span class="ff-streak__dot"><i data-icon="check" data-size="16" data-stroke="3"></i></span>M</div>
+            <div class="ff-streak__day is-done is-today"><span class="ff-streak__dot" style="background:var(--primary);border-style:solid"><i data-icon="zap" data-size="16" data-stroke="2.6"></i></span>J</div>
+            <div class="ff-streak__day"><span class="ff-streak__dot"></span>V</div>
+            <div class="ff-streak__day"><span class="ff-streak__dot"></span>S</div>
+            <div class="ff-streak__day"><span class="ff-streak__dot"></span>D</div>
+          </div>
+        </div>
+
+        <h2 class="ff-h3 sec">Badges</h2>
+        <div class="ff-achievements">
+          <div class="ff-achievement"><span class="ff-achievement__medal"><i data-icon="zap" data-size="28" data-stroke="2.4"></i></span>Premier sauvetage</div>
+          <div class="ff-achievement is-locked"><span class="ff-achievement__medal"><i data-icon="lock" data-size="24"></i></span>5 kg sauvés</div>
+          <div class="ff-achievement is-locked"><span class="ff-achievement__medal"><i data-icon="lock" data-size="24"></i></span>Série de 7 jours</div>
+        </div>
+
+        <h2 class="ff-h3 sec">Réglages</h2>
+        <div class="ff-list">
+          <button class="ff-list__item"><i data-icon="leaf" data-size="20"></i>Régime<span>Aucun ›</span></button>
+          <button class="ff-list__item"><i data-icon="info" data-size="20"></i>Allergies<span>Aucune ›</span></button>
+          <button class="ff-list__item"><i data-icon="rotate-ccw" data-size="20"></i>Réinitialiser la démo<span>›</span></button>
+        </div>
+      </main>
+    </div>
+
+    <nav class="ff-tabbar" aria-label="Navigation">
+      <button class="ff-tab"><i data-icon="house"></i>Accueil<span class="ff-tab__dot"></span></button>
+      <button class="ff-tab-flash" aria-label="Flasher mon frigo"><i data-icon="zap" data-size="30" data-stroke="2.4"></i></button>
+      <button class="ff-tab" aria-current="page"><i data-icon="chart-no-axes-column"></i>Impact<span class="ff-tab__dot"></span></button>
+    </nav>
+  </div>
+</div>
+<script src="../icons/icons.js"></script>
+</body>
+</html>

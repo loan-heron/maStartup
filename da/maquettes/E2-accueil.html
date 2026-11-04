@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FrigoFlash · E2 Accueil</title>
+<link rel="icon" href="../logo/favicon.svg">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../components.css">
+<style>
+  .hello { display:flex; align-items:center; gap:10px; font-weight:700; }
+  .avatar { width:44px; height:44px; border-radius:50%; background:var(--ff-menthe-400); border:2px solid var(--ff-encre-900); display:grid; place-items:center; font-family:var(--font-display); font-weight:800; font-size:18px; }
+  .nudge { display:flex; gap:12px; align-items:center; padding:12px 14px; border-radius:var(--r-md); background:var(--urgent-bg); color:var(--text); }
+  .nudge__icon { flex:none; width:36px; height:36px; border-radius:50%; background:var(--urgent-fill); border:2px solid var(--ff-encre-900); display:grid; place-items:center; }
+  .section-head { display:flex; justify-content:space-between; align-items:baseline; margin: 28px 0 12px; }
+  .section-head a { font-size:14px; font-weight:700; color:var(--text); }
+  .rail { display:grid; grid-auto-flow:column; grid-auto-columns: 78%; gap:12px; overflow-x:auto; margin:0 calc(-1 * var(--gutter)); padding:4px var(--gutter) 12px; scrollbar-width:none; }
+  .history { display:flex; align-items:center; gap:12px; padding:10px 14px 10px 10px; }
+  .history img { width:46px; height:56px; object-fit:contain; }
+  .stack { display:grid; gap:10px; }
+</style>
+</head>
+<body>
+<div class="ff-stage">
+  <div class="ff-phone">
+    <div class="ff-screen">
+      <div class="ff-statusbar"><span>19:04</span><span class="ff-statusbar__icons">●●● 5G ▮</span></div>
+
+      <header class="ff-topbar">
+        <div class="hello"><img src="../logo/symbole.svg" width="34" height="34" alt="FrigoFlash"> <span>Salut Inès 👋</span></div>
+        <div class="avatar" aria-label="Profil">I</div>
+      </header>
+
+      <main class="ff-pad">
+        <h1 class="ff-h1" style="margin:4px 0 18px">On sauve quoi <span class="ff-mark">ce soir</span>&nbsp;?</h1>
+
+        <button class="ff-flash" type="button">
+          <span class="ff-flash__icon"><i data-icon="camera" data-size="30" data-stroke="2.4"></i><svg class="ff-flash__rays" viewBox="0 0 24 24" fill="none" stroke="#16171D" stroke-width="2.6" stroke-linecap="round" aria-hidden="true"><path d="M6 12l6-6M10 20h10M2 8V1"/></svg></span>
+          <span>
+            <span class="ff-flash__title">Flasher mon frigo</span>
+            <span class="ff-flash__sub" style="display:block">1 photo, 3 recettes, 0 courses</span>
+          </span>
+        </button>
+
+        <div class="nudge" style="margin-top:22px">
+          <span class="nudge__icon"><i data-icon="hourglass" data-size="18" data-stroke="2.4"></i></span>
+          <div class="ff-small"><b style="color:var(--urgent)">À manger vite</b> d'après ton flash d'hier : 🥒 courgette, 🥛 yaourt</div>
+        </div>
+
+        <div class="section-head"><h2 class="ff-h3">Ce mois-ci</h2><a href="E8-impact.html">Voir tout</a></div>
+        <div class="ff-impact-strip">
+          <div><b>3,2 kg</b><span>sauvés</span></div>
+          <div><b>12,80 €</b><span>économisés</span></div>
+          <div><b>12</b><span>repas</span></div>
+        </div>
+
+        <div class="section-head"><h2 class="ff-h3">Tes favoris</h2><a href="#">Tout</a></div>
+        <div class="rail">
+          <a class="ff-recipe ff-recipe--compact" href="#">
+            <div class="ff-recipe__visual"><img src="../illustrations/recettes/riz-saute-oeufs-courgette.svg" alt="" style="height:100%;width:100%;object-fit:cover"></div>
+            <div class="ff-recipe__body"><b class="ff-small" style="font-weight:700;font-size:15px;line-height:1.25">Riz sauté œufs-courgette</b><span class="ff-meta"><i data-icon="clock" data-size="14"></i>15 min</span></div>
+          </a>
+          <a class="ff-recipe ff-recipe--compact" href="#">
+            <div class="ff-recipe__visual"><img src="../illustrations/recettes/shakshuka-express.svg" alt="" style="height:100%;width:100%;object-fit:cover"></div>
+            <div class="ff-recipe__body"><b class="ff-small" style="font-weight:700;font-size:15px;line-height:1.25">Shakshuka express</b><span class="ff-meta"><i data-icon="clock" data-size="14"></i>20 min</span></div>
+          </a>
+        </div>
+
+        <div class="section-head" style="margin-top:16px"><h2 class="ff-h3">Derniers flashs</h2></div>
+        <div class="stack">
+          <div class="ff-card history"><img src="../illustrations/frigos/frigo-etudiant.svg" alt=""><div style="flex:1"><b>Frigo étudiant</b><div class="ff-meta">Hier · 7 ingrédients · 3 recettes</div></div><i data-icon="chevron-right" style="color:var(--text-muted)"></i></div>
+          <div class="ff-card history"><img src="../illustrations/frigos/frigo-dimanche.svg" alt=""><div style="flex:1"><b>Frigo du dimanche</b><div class="ff-meta">Dim. · 7 ingrédients · 3 recettes</div></div><i data-icon="chevron-right" style="color:var(--text-muted)"></i></div>
+        </div>
+      </main>
+    </div>
+
+    <nav class="ff-tabbar" aria-label="Navigation">
+      <button class="ff-tab" aria-current="page"><i data-icon="house"></i>Accueil<span class="ff-tab__dot"></span></button>
+      <button class="ff-tab-flash" aria-label="Flasher mon frigo"><i data-icon="zap" data-size="30" data-stroke="2.4"></i></button>
+      <button class="ff-tab"><i data-icon="chart-no-axes-column"></i>Impact<span class="ff-tab__dot"></span></button>
+    </nav>
+  </div>
+</div>
+<script src="../icons/icons.js"></script>
+</body>
+</html>
