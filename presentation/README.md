@@ -3,6 +3,7 @@
 ## Version 10 minutes (à utiliser pour la soutenance)
 - `FrigoFlash.pdf` : 10 slides + 5 annexes (questions du jury, plan B si la démo plante).
 - `FrigoFlash-notes-oral.pdf` : le texte de l'oral, avec le temps de chaque slide, qui parle (A ou B) et des repères chrono. 8 min 40 de parole prévue, ≈ 1 min 20 de marge.
+- `FrigoFlash-antiseche.pdf` : antisèche A4 recto-verso à imprimer (déroulé minuté A/B, chiffres clés, questions du jury). Source : `antiseche.html`.
 - Source : `index.html` (`index.html#notes` affiche les notes).
 
 | # | Slide | Qui | Temps |
