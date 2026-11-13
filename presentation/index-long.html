@@ -1,0 +1,890 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<title>FrigoFlash, la présentation</title>
+<meta name="viewport" content="width=1280">
+<!--
+  Présentation FrigoFlash (étape 4 du pipeline). Source HTML du PDF.
+  - Ouvrir ce fichier dans Chrome : les slides s'affichent les unes sous les autres.
+  - index.html#notes : version « notes de l'oral » (texte par slide, présentateur A ou B).
+  - Export PDF : node build.js (Playwright) ; ou Chrome > Imprimer > Enregistrer en PDF, marges « Aucune », arrière-plans cochés.
+  - Noms des présentateurs : modifier SPEAKERS ci-dessous.
+  - Logo : LOGO_VERSION = "1.0" (logo officiel de la DA) ou "1.1" (retouche proposée, slide 19).
+-->
+<style>
+@font-face { font-family: "Bricolage Grotesque"; src: url("assets/fonts/bricolage-grotesque-latin.woff2") format("woff2"); font-weight: 200 800; }
+@font-face { font-family: "DM Sans"; src: url("assets/fonts/dm-sans-latin.woff2") format("woff2"); font-weight: 100 1000; }
+
+:root{
+  --flash:#FFD60A; --flash-100:#FFF3B0; --flash-50:#FFFAE0; --flash-700:#7A5E00;
+  --menthe:#3DDBA0; --menthe-100:#DDF8EC; --menthe-700:#0A7D5C;
+  --corail:#FF6B4A; --corail-100:#FFE6DE; --corail-700:#B5371D;
+  --encre:#16171D; --encre-700:#2B2D36; --gris-600:#5E5A52; --gris-400:#8A847A; --gris-200:#E9E1D2; --gris-100:#F3ECDF;
+  --creme:#FFF8EC; --blanc:#FFFFFF; --lilas:#9B8CFF;
+  --display:"Bricolage Grotesque","DM Sans",sans-serif; --body:"DM Sans",system-ui,sans-serif;
+  --sh-2: 0 4px 12px rgba(22,23,29,.08), 0 12px 32px rgba(22,23,29,.08);
+}
+@page { size: 1280px 720px; margin: 0; }
+*{ box-sizing:border-box; margin:0; padding:0; }
+html,body{ background:#d9d2c4; }
+body{ font-family:var(--body); color:var(--encre); -webkit-print-color-adjust:exact; print-color-adjust:exact; font-variant-numeric: tabular-nums; }
+.slide{ width:1280px; height:720px; position:relative; overflow:hidden; background:var(--creme); padding:56px 72px 64px; margin:0 auto 24px; break-after:page; page-break-after:always; display:flex; flex-direction:column; }
+@media print{ html,body{ background:none; } .slide{ margin:0; } }
+.slide:last-child{ break-after:auto; page-break-after:auto; }
+
+/* ---------- typo ---------- */
+h1,h2,h3,.num{ font-family:var(--display); letter-spacing:-.02em; }
+h1{ font-size:64px; line-height:1.0; font-weight:800; letter-spacing:-.035em; }
+h2{ font-size:44px; line-height:1.05; font-weight:800; letter-spacing:-.03em; }
+h3{ font-size:22px; line-height:1.15; font-weight:700; }
+p,li{ font-size:18px; line-height:1.45; }
+.kicker{ font:700 13px/1 var(--body); letter-spacing:.1em; text-transform:uppercase; color:var(--gris-600); margin-bottom:14px; display:flex; align-items:center; gap:10px; }
+.kicker b{ background:var(--encre); color:var(--creme); border-radius:999px; padding:5px 10px; letter-spacing:.06em; }
+.lead{ font-size:21px; line-height:1.45; color:var(--gris-600); max-width:760px; }
+.muted{ color:var(--gris-600); }
+.small{ font-size:14px; line-height:1.4; }
+.tiny{ font-size:12px; line-height:1.35; color:var(--gris-600); }
+.mark{ position:relative; white-space:nowrap; z-index:0; }
+.mark::before{ content:""; position:absolute; left:-.08em; right:-.08em; top:.52em; bottom:-.02em; background:var(--flash); z-index:-1; transform:rotate(-1.5deg); border-radius:4px; }
+.on-ink .mark{ color:var(--encre); }
+.on-ink .mark::before{ top:.08em; bottom:-.04em; }
+
+/* ---------- pied de slide ---------- */
+.foot{ position:absolute; left:72px; right:72px; bottom:22px; display:flex; align-items:center; justify-content:space-between; font:500 12px/1 var(--body); color:var(--gris-400); }
+.foot .brand{ display:flex; align-items:center; gap:8px; color:var(--gris-600); font-weight:700; }
+.foot .brand svg{ width:18px; height:18px; }
+.foot .right{ display:flex; align-items:center; gap:14px; }
+.spk{ display:inline-flex; align-items:center; gap:7px; font:700 12px/1 var(--body); color:var(--encre); background:var(--blanc); border:1.5px solid var(--encre); border-radius:999px; padding:4px 10px 4px 4px; }
+.spk i.dot{ width:20px; height:20px; border-radius:50%; display:grid; place-items:center; font-style:normal; font:800 11px/1 var(--display); border:1.5px solid var(--encre); }
+.spk.A i.dot{ background:var(--flash); } .spk.B i.dot{ background:var(--menthe); } .spk.AB i.dot{ background:linear-gradient(90deg,var(--flash) 50%,var(--menthe) 50%); }
+.on-ink .foot{ color:#8f8a80; } .on-ink .foot .brand{ color:#cfc8bb; }
+.on-yellow .foot, .on-yellow .foot .brand{ color:var(--encre); }
+
+/* ---------- surfaces ---------- */
+.on-ink{ background:var(--encre); color:var(--creme); }
+.on-ink .lead, .on-ink .muted{ color:#bdb7ab; }
+.on-ink .kicker{ color:#bdb7ab; } .on-ink .kicker b{ background:var(--flash); color:var(--encre); }
+.on-yellow{ background:var(--flash); }
+.card{ background:var(--blanc); border-radius:20px; padding:22px 24px; box-shadow:var(--sh-2); }
+.card.ink{ background:var(--encre); color:var(--creme); box-shadow:none; }
+.card.flat{ box-shadow:none; border:1.5px solid var(--gris-200); }
+.pop{ border:2px solid var(--encre); box-shadow:0 5px 0 var(--encre); }
+.grid{ display:grid; gap:20px; }
+.row{ display:flex; gap:20px; }
+.grow{ flex:1; }
+.ico{ width:44px; height:44px; border-radius:14px; display:grid; place-items:center; flex:none; }
+.ico.y{ background:var(--flash); border:2px solid var(--encre); } .ico.m{ background:var(--menthe-100); color:var(--menthe-700); } .ico.c{ background:var(--corail-100); color:var(--corail-700); } .ico.k{ background:var(--encre); color:var(--flash); } .ico.l{ background:var(--flash-100); color:var(--flash-700); }
+.pill{ display:inline-flex; align-items:center; gap:6px; font:700 13px/1 var(--body); padding:7px 11px; border-radius:999px; }
+.pill.m{ background:var(--menthe-100); color:var(--menthe-700); } .pill.c{ background:var(--corail-100); color:var(--corail-700); } .pill.y{ background:var(--flash); color:var(--encre); } .pill.k{ background:var(--encre); color:var(--creme); } .pill.g{ background:var(--gris-100); color:var(--gris-600); }
+.num{ font-weight:800; font-size:56px; line-height:.95; letter-spacing:-.04em; }
+.num small{ font-size:.45em; letter-spacing:-.01em; margin-left:3px; }
+
+/* ---------- téléphones ---------- */
+.phone{ width:var(--w,220px); aspect-ratio:390/844; border:7px solid var(--encre); border-radius:calc(var(--w,220px) * .14); overflow:hidden; background:var(--encre); box-shadow:0 18px 40px rgba(22,23,29,.22); flex:none; position:relative; }
+.phone img{ width:100%; height:100%; display:block; object-fit:cover; object-position:top; border-radius:calc(var(--w,220px) * .1); }
+.step-no{ position:absolute; top:-14px; left:-14px; width:34px; height:34px; border-radius:50%; background:var(--flash); border:2px solid var(--encre); font:800 16px/30px var(--display); text-align:center; z-index:2; }
+
+/* ---------- divers ---------- */
+.big-quote{ font:800 52px/1.05 var(--display); letter-spacing:-.035em; }
+.src{ position:absolute; left:72px; bottom:46px; font-size:11px; color:var(--gris-400); max-width:900px; }
+.on-ink .src{ color:#8f8a80; }
+table.t{ border-collapse:collapse; width:100%; font-size:15px; }
+table.t th{ text-align:left; font:700 12px/1.2 var(--body); letter-spacing:.06em; text-transform:uppercase; color:var(--gris-600); padding:10px 12px; border-bottom:2px solid var(--encre); }
+table.t td{ padding:11px 12px; border-bottom:1px solid var(--gris-200); vertical-align:top; }
+.hatch-y{ fill:url(#hy); }
+svg text{ font-family:var(--body); }
+.divider{ justify-content:center; }
+.divider .bignum{ position:absolute; right:40px; bottom:-90px; font:800 420px/1 var(--display); color:#22232b; letter-spacing:-.06em; }
+.divider h1{ font-size:88px; position:relative; z-index:1; }
+.divider .lead{ position:relative; z-index:1; margin-top:22px; }
+</style>
+</head>
+<body>
+
+<!-- Motifs SVG partagés (hachures = projection / période en cours) -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <pattern id="hy" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" fill="#FFD60A"/><rect width="3" height="8" fill="#16171D" opacity=".55"/></pattern>
+    <pattern id="hc" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" fill="#FF6B4A"/><rect width="3" height="8" fill="#16171D" opacity=".45"/></pattern>
+    <pattern id="hm" width="8" height="8" patternUnits="userSpaceOnUse" patternTransform="rotate(45)"><rect width="8" height="8" fill="#3DDBA0"/><rect width="3" height="8" fill="#16171D" opacity=".45"/></pattern>
+  </defs>
+</svg>
+
+<!-- =========================================================== 1. COUVERTURE -->
+<section class="slide on-yellow" data-spk="AB" data-title="Couverture"
+ data-notes="A : « Bonjour, on est [A] et [B]. Petite question pour commencer : qui ici a déjà jeté une courgette oubliée au fond du frigo ? » (lever la main, laisser 2 secondes). B : « Nous aussi. C'est pour ça qu'on a créé FrigoFlash. » A : « Et particularité du projet : tout, de l'étude de marché au code, a été produit avec l'IA. On vous montre comment à la fin. »">
+  <div style="display:flex;height:100%;align-items:center;gap:40px">
+    <div style="flex:1">
+      <div data-logo="vertical" style="width:330px;margin-bottom:46px"></div>
+      <h1 style="font-size:72px">Un flash.<br>Trois recettes.<br>Zéro gâchis.</h1>
+      <p style="font-size:22px;margin-top:26px;max-width:520px">L'app qui transforme une photo de ton frigo en 3 recettes anti-gaspi, en quelques secondes.</p>
+      <p class="small" style="margin-top:34px;font-weight:700">Projet d'école · Novembre 2026 · <span data-names></span></p>
+    </div>
+    <div style="position:relative;width:440px;height:600px">
+      <div style="position:absolute;right:20px;top:12px;width:300px;height:300px;border-radius:50%;background:var(--flash-100);border:2px solid var(--encre)"></div>
+      <div class="phone pop" style="--w:250px;position:absolute;left:30px;top:20px;transform:rotate(-6deg);box-shadow:10px 14px 0 var(--encre)"><img src="assets/captures/03-home.png" alt=""></div>
+      <div class="phone" style="--w:230px;position:absolute;right:0;top:110px;transform:rotate(5deg);box-shadow:10px 14px 0 var(--encre)"><img src="assets/captures/08-recettes.png" alt=""></div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== 2. SOMMAIRE -->
+<section class="slide" data-spk="A" data-title="Le pitch et le plan"
+ data-notes="A : « Le gaspillage alimentaire commence par une question toute bête : je mange quoi ce soir ? FrigoFlash y répond en une photo. » Présenter le plan en 20 secondes, en annonçant qui parle : « Je vous présente le problème et le marché, [B] vous montre l'app et la marque, je reviens sur le business, et on termine ensemble par le making-of IA. »">
+  <div class="kicker">Le pitch</div>
+  <div style="display:flex;gap:30px;align-items:center;flex:1"><p class="big-quote" style="flex:1">Le gaspillage commence par une question : <span class="mark">je mange quoi ce soir ?</span><br><span style="color:var(--gris-600)">FrigoFlash y répond en une photo.</span></p><img src="assets/illus/frigo-etudiant.svg" style="height:290px;transform:rotate(3deg)" alt=""></div>
+  <div class="grid" style="grid-template-columns:repeat(5,1fr);margin-top:10px;gap:14px">
+    <div class="card flat"><div class="spk A" style="margin-bottom:14px"><i class="dot">A</i><span data-name="A"></span></div><div class="num" style="font-size:30px">01</div><h3 style="margin-top:8px">Le problème</h3><p class="small muted">Chiffres, insight, personas</p></div>
+    <div class="card flat"><div class="spk B" style="margin-bottom:14px"><i class="dot">B</i><span data-name="B"></span></div><div class="num" style="font-size:30px">02</div><h3 style="margin-top:8px">L'app</h3><p class="small muted">Parcours, démo, robustesse</p></div>
+    <div class="card flat"><div class="spk B" style="margin-bottom:14px"><i class="dot">B</i><span data-name="B"></span></div><div class="num" style="font-size:30px">03</div><h3 style="margin-top:8px">La marque</h3><p class="small muted">Logo, couleurs, typo, illustrations</p></div>
+    <div class="card flat"><div class="spk A" style="margin-bottom:14px"><i class="dot">A</i><span data-name="A"></span></div><div class="num" style="font-size:30px">04</div><h3 style="margin-top:8px">Le business</h3><p class="small muted">Concurrence, modèle, projections</p></div>
+    <div class="card flat"><div class="spk AB" style="margin-bottom:14px"><i class="dot"></i>Les deux</div><div class="num" style="font-size:30px">05</div><h3 style="margin-top:8px">Le making-of</h3><p class="small muted">Comment l'IA a tout produit</p></div>
+  </div>
+</section>
+
+<!-- =========================================================== 3. INTERCALAIRE 01 -->
+<section class="slide on-ink divider" data-spk="A" data-title="Intercalaire : le problème"
+ data-notes="A : transition rapide. « Commençons par le problème. »">
+  <div class="bignum">01</div>
+  <div class="kicker"><b>01</b> Le problème</div>
+  <h1>On jette ce qu'on a <span class="mark">déjà</span> acheté.</h1>
+  <p class="lead">Pas par négligence : faute d'idée, au mauvais moment.</p>
+</section>
+
+<!-- =========================================================== 4. CHIFFRES -->
+<section class="slide" data-spk="A" data-title="Le constat en chiffres"
+ data-notes="A : « En France, on gaspille 10 millions de tonnes de nourriture par an, 16 milliards d'euros. Et ce n'est pas que la faute des supermarchés : chacun de nous jette 20 à 30 kg de nourriture encore mangeable par an, dont 7 kg encore emballés. Ça fait 100 à 160 euros qui partent à la poubelle. » Insister sur la précision : « On parle bien de nourriture comestible ; l'ONU annonce 79 kg mais en comptant les épluchures et les os. » Finir sur le climat : 8 à 10 % des émissions mondiales.">
+  <div class="kicker">Le constat</div>
+  <h2 style="max-width:900px">Chaque Français jette <span class="mark">20 à 30 kg</span> de nourriture comestible par an.</h2>
+  <div style="display:grid;grid-template-columns:1.25fr 1fr;gap:28px;margin-top:24px;flex:1;margin-bottom:34px">
+    <div class="card" style="display:flex;flex-direction:column">
+      <p class="small muted" style="font-weight:700">Une personne, une année : 1 carré = 1 kg jeté</p>
+      <div id="kgGrid" style="margin:16px 0 12px"></div>
+      <div class="row" style="gap:18px;align-items:center;margin-top:auto">
+        <span class="pill k">■ 20 kg minimum</span><span class="pill g">▨ jusqu'à 30 kg</span><span class="pill y">dont ≈ 7 kg encore emballés</span>
+      </div>
+      <div class="row" style="margin-top:18px;align-items:flex-end">
+        <div><div class="num">100-160<small>€</small></div><p class="small muted">perdus par personne et par an (ADEME)</p></div>
+        <div style="margin-left:auto;text-align:right"><div class="num" style="font-size:40px">≈ 4<small>€/kg</small></div><p class="small muted">la base de calcul de l'app</p></div>
+      </div>
+    </div>
+    <div class="grid" style="grid-template-rows:1fr 1fr 1fr;gap:16px">
+      <div class="card ink row" style="align-items:center;gap:20px"><div class="num" style="color:var(--flash);font-size:52px">10<small>Mt</small></div><p class="small" style="color:#d6d0c4">gaspillées par an en France, tous acteurs confondus, soit <b style="color:var(--creme)">≈ 16 Md€</b></p></div>
+      <div class="card row" style="align-items:center;gap:20px"><svg id="donut" width="74" height="74" viewBox="0 0 74 74"></svg><p class="small"><b>1/3</b> de la nourriture produite dans le monde est perdue ou gaspillée</p></div>
+      <div class="card row" style="align-items:center;gap:20px"><div class="num" style="font-size:44px;color:var(--corail-700);white-space:nowrap">8-10<small>%</small></div><p class="small">des émissions mondiales de gaz à effet de serre viennent des pertes et du gaspillage</p></div>
+    </div>
+  </div>
+  <p class="src">Sources : ADEME 2016 (10 Mt, 16 Md€) · ADEME / ministère de l'Agriculture « Ça suffit le gâchis » (20-30 kg, 7 kg emballés, 100-160 €) · FAO 2011 (1/3) · PNUE Food Waste Index 2021 et 2024 (8-10 % des GES).</p>
+</section>
+
+<!-- =========================================================== 5. INSIGHT -->
+<section class="slide" data-spk="A" data-title="L'insight"
+ data-notes="A : « On a interrogé notre propre quotidien et on s'est rendu compte que le gaspillage n'est pas un problème de bonne volonté. C'est un problème de décision. » Dérouler les 4 causes en une phrase chacune. Terminer par l'insight, lentement : « J'ai de quoi manger, mais je ne le vois pas. » Puis la chute : « Résultat, on commande un Uber Eats à 20 euros pendant que les courgettes pourrissent. »">
+  <div class="kicker">L'insight</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:48px;flex:1;align-items:center">
+    <div>
+      <p class="big-quote" style="font-size:58px">« J'ai de quoi manger, mais je ne le <span class="mark">vois</span> pas. »</p>
+      <p class="lead" style="margin-top:26px">Le gaspillage n'est pas un problème de mauvaise volonté. C'est un <b style="color:var(--encre)">problème de décision</b>, à 19 h, devant un frigo ouvert.</p>
+      <div class="card ink row" style="margin-top:28px;align-items:center;gap:16px;padding:16px 20px"><div class="ico" style="background:var(--corail);color:var(--encre)"><i data-icon="shopping-basket" data-size="22"></i></div><p class="small" style="color:#d6d0c4">Résultat : on commande un repas à <b style="color:var(--creme)">15-25 €</b> pendant que les courgettes pourrissent.</p></div>
+    </div>
+    <div class="grid" style="grid-template-columns:1fr 1fr;gap:16px">
+      <div class="card"><div class="ico l"><i data-icon="hourglass"></i></div><h3 style="margin-top:14px">Fatigue décisionnelle</h3><p class="small muted" style="margin-top:6px">Après les cours ou le boulot, personne n'a envie de réfléchir.</p></div>
+      <div class="card"><div class="ico c"><i data-icon="refrigerator"></i></div><h3 style="margin-top:14px">Invisibilité</h3><p class="small muted" style="margin-top:6px">Ce qui est au fond du frigo est oublié jusqu'à ce qu'il soit périmé.</p></div>
+      <div class="card"><div class="ico m"><i data-icon="chef-hat"></i></div><h3 style="margin-top:14px">Manque d'idées</h3><p class="small muted" style="margin-top:6px">« 2 courgettes, un reste de riz et un œuf… et alors ? »</p></div>
+      <div class="card"><div class="ico k"><i data-icon="search"></i></div><h3 style="margin-top:14px">Friction des applis</h3><p class="small muted" style="margin-top:6px">Taper ses ingrédients un par un : personne ne le fait deux fois.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== 6. PERSONAS -->
+<section class="slide" data-spk="A" data-title="Cible et personas"
+ data-notes="A : « Notre cœur de cible : les 18-30 ans, étudiants et jeunes actifs, budget serré, qui cuisinent un peu. » Présenter Inès (l'étudiante, citation des 10 secondes) puis Hugo (le jeune actif qui veut des chiffres). « Inès veut aller vite, Hugo veut voir que ça sert à quelque chose : l'app répond aux deux. » Mentionner Camille et Malik comme cible V2 (frigo partagé), puis passer la parole à B.">
+  <div class="kicker">Cible · 18-30 ans, étudiants et jeunes actifs</div>
+  <h2>Deux profils, une même <span class="mark">flemme</span> à 19 h.</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr 0.7fr;gap:20px;margin-top:30px;flex:1">
+    <div class="card" style="display:flex;flex-direction:column">
+      <div class="row" style="align-items:center;gap:14px"><div class="ico y" style="width:56px;height:56px;border-radius:50%;font-size:28px">🎓</div><div><h3>Inès, 21 ans</h3><p class="small muted">Étudiante en L3 à Lyon, coloc à 3, 40 €/semaine de courses</p></div></div>
+      <p style="font:700 22px/1.25 var(--display);margin:22px 0">« Si ça me prend plus de 10 secondes, je commande. »</p>
+      <ul class="small" style="padding-left:18px;color:var(--gris-600);display:grid;gap:6px"><li>Achète des légumes « avec de bonnes intentions », les jette 10 jours après</li><li>Trouve ses idées sur TikTok mais « ne retrouve jamais la vidéo »</li></ul>
+      <p class="small" style="margin-top:auto;margin-bottom:12px;padding:12px 14px;background:var(--flash-50);border-radius:12px"><b>Quand</b> j'ouvre mon frigo sans idée, <b>je veux</b> savoir quoi cuisiner en quelques secondes, <b>pour</b> ne pas commander ni jeter.</p><div class="row" style="gap:8px;flex-wrap:wrap"><span class="pill y">Immédiat</span><span class="pill y">≤ 20 min</span><span class="pill y">Pas cher</span></div>
+    </div>
+    <div class="card" style="display:flex;flex-direction:column">
+      <div class="row" style="align-items:center;gap:14px"><div class="ico" style="width:56px;height:56px;border-radius:50%;font-size:28px;background:var(--menthe);border:2px solid var(--encre)">💼</div><div><h3>Hugo, 27 ans</h3><p class="small muted">Développeur à Nantes, vit seul, cuisine 3 soirs par semaine</p></div></div>
+      <p style="font:700 22px/1.25 var(--display);margin:22px 0">« Montre-moi que ça sert à quelque chose, avec des chiffres. »</p>
+      <ul class="small" style="padding-left:18px;color:var(--gris-600);display:grid;gap:6px"><li>Courses le dimanche, « le jeudi la moitié est déjà triste »</li><li>Utilise Too Good To Go, attentif à son impact carbone</li></ul>
+      <p class="small" style="margin-top:auto;margin-bottom:12px;padding:12px 14px;background:var(--menthe-100);border-radius:12px"><b>Quand</b> je fais un effort, <b>je veux</b> voir son impact, <b>pour</b> rester motivé.</p><div class="row" style="gap:8px;flex-wrap:wrap"><span class="pill m">Quoi utiliser en premier</span><span class="pill m">kg · € · CO₂e</span></div>
+    </div>
+    <div class="card flat" style="display:flex;flex-direction:column;background:transparent">
+      <div class="row" style="align-items:center;gap:12px"><div class="ico" style="width:48px;height:48px;border-radius:50%;font-size:24px;background:var(--gris-100)">🏠</div><h3 style="font-size:19px">Camille & Malik, 30 ans</h3></div>
+      <p class="small muted" style="margin-top:14px">Un frigo partagé, des doublons et des oublis. Veulent une vue commune et des recettes pour 2.</p>
+      <span class="pill g" style="margin-top:auto;align-self:flex-start">Cible V2 : frigo partagé</span>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== 7. INTERCALAIRE 02 -->
+<section class="slide on-ink divider" data-spk="B" data-title="Intercalaire : l'app"
+ data-notes="B : « Merci [A]. Je vous montre maintenant ce qu'on a construit. »">
+  <div class="bignum">02</div>
+  <div class="kicker"><b>02</b> L'app</div>
+  <h1>Ton frigo a déjà <span class="mark">la réponse.</span></h1>
+  <p class="lead">Un prototype d'app mobile en HTML, CSS et JavaScript, qui marche sans réseau et sans compte.</p>
+</section>
+
+<!-- =========================================================== 8. SOLUTION 3 TEMPS -->
+<section class="slide" data-spk="B" data-title="FrigoFlash en 3 temps"
+ data-notes="B : « FrigoFlash, c'est trois gestes. Un : tu prends ton frigo en photo, zéro saisie. Deux : l'IA reconnaît les ingrédients et repère ce qui doit être mangé vite. Trois : tu reçois trois recettes, pas trois cents, classées par ce qu'elles sauvent. Et à chaque recette cuisinée, ton compteur d'impact monte. » Préciser honnêtement : « Le prototype est en mode démo : l'analyse est simulée avec des frigos préenregistrés, le format de données est celui qu'enverrait une vraie IA. »">
+  <div class="kicker">La solution</div>
+  <h2>Une photo. L'IA trie. Tu <span class="mark">cuisines.</span></h2>
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:30px;margin-top:22px;align-items:start">
+    <div style="display:flex;flex-direction:column;align-items:center;text-align:center">
+      <div class="phone" style="--w:180px"><img src="assets/captures/04-sheet.png" alt=""></div>
+      <div class="row" style="align-items:center;gap:10px;margin-top:16px"><div class="ico y" style="width:36px;height:36px;border-radius:50%;font:800 17px var(--display)">1</div><h3>Flashe ton frigo</h3></div>
+      <p class="small muted" style="margin-top:6px;max-width:300px">Zéro saisie : une photo suffit.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;text-align:center">
+      <div class="phone" style="--w:180px"><img src="assets/captures/07-ingredients-edit.png" alt=""></div>
+      <div class="row" style="align-items:center;gap:10px;margin-top:16px"><div class="ico y" style="width:36px;height:36px;border-radius:50%;font:800 17px var(--display)">2</div><h3>L'IA repère l'urgent</h3></div>
+      <p class="small muted" style="margin-top:6px;max-width:300px">Ingrédients reconnus, « à manger vite » signalé, correction en 1 tap.</p>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;text-align:center">
+      <div class="phone" style="--w:180px"><img src="assets/captures/08-recettes.png" alt=""></div>
+      <div class="row" style="align-items:center;gap:10px;margin-top:16px"><div class="ico y" style="width:36px;height:36px;border-radius:50%;font:800 17px var(--display)">3</div><h3>3 recettes anti-gaspi</h3></div>
+      <p class="small muted" style="margin-top:6px;max-width:300px">Au moins une faisable à 100 %, classées par ce qu'elles sauvent.</p>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== 9. PARCOURS -->
+<section class="slide" data-spk="B" data-title="Le parcours de démo"
+ data-notes="B : dérouler le parcours d'Inès de gauche à droite, en 40 secondes. « 19 h, Inès ouvre l'app. Elle flashe son frigo, l'analyse prend 3 secondes, elle retire la bière (l'IA s'est un peu trop avancée) et ajoute de la farine. Trois recettes. Elle choisit le riz sauté, 15 minutes. Elle cuisine, appuie sur J'ai cuisiné ça : confettis, 650 g sauvés. Et son compteur passe à 3,2 kg ce mois-ci. » Les émotions sous la frise montrent le chemin : de la flemme à la fierté.">
+  <div class="kicker">Le parcours d'Inès · moins de 60 secondes</div>
+  <h2>De la <span class="mark">flemme</span> à la fierté.</h2>
+  <div style="display:flex;justify-content:space-between;margin-top:34px;padding:0 6px">
+    <div style="position:relative"><span class="step-no">1</span><div class="phone" style="--w:142px;border-width:5px"><img src="assets/captures/03-home.png" alt=""></div></div>
+    <div style="position:relative"><span class="step-no">2</span><div class="phone" style="--w:142px;border-width:5px"><img src="assets/captures/05-scan.png" alt=""></div></div>
+    <div style="position:relative"><span class="step-no">3</span><div class="phone" style="--w:142px;border-width:5px"><img src="assets/captures/07-ingredients-edit.png" alt=""></div></div>
+    <div style="position:relative"><span class="step-no">4</span><div class="phone" style="--w:142px;border-width:5px"><img src="assets/captures/08-recettes.png" alt=""></div></div>
+    <div style="position:relative"><span class="step-no">5</span><div class="phone" style="--w:142px;border-width:5px"><img src="assets/captures/09-recette.png" alt=""></div></div>
+    <div style="position:relative"><span class="step-no">6</span><div class="phone" style="--w:142px;border-width:5px"><img src="assets/captures/10-celebrate.png" alt=""></div></div>
+    <div style="position:relative"><span class="step-no">7</span><div class="phone" style="--w:142px;border-width:5px"><img src="assets/captures/11-impact.png" alt=""></div></div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-top:16px;text-align:center" class="small">
+    <div><b>Accueil</b><br><span class="muted">« On sauve quoi ce soir ? »</span></div>
+    <div><b>Analyse</b><br><span class="muted">≈ 3 s, scan animé</span></div>
+    <div><b>Ingrédients</b><br><span class="muted">− bière, + farine</span></div>
+    <div><b>3 idées</b><br><span class="muted">« 0 courses »</span></div>
+    <div><b>Fiche</b><br><span class="muted">Riz sauté, 15 min</span></div>
+    <div><b>Bien joué !</b><br><span class="muted">+650 g sauvés</span></div>
+    <div><b>Impact</b><br><span class="muted">3,2 kg ce mois</span></div>
+  </div>
+  <svg id="emoCurve" width="1136" height="76" style="margin-top:4px"></svg>
+</section>
+
+<!-- =========================================================== 10. ZOOM IA -->
+<section class="slide" data-spk="B" data-title="Zoom : l'IA qui comprend ton frigo"
+ data-notes="B : « Une question qu'on nous pose toujours : une photo ne montre pas les dates, comment l'app sait ce qui va périmer ? » Répondre avec l'encart : l'aspect visible (courgette un peu molle), la durée de conservation type du produit, la correction de l'utilisateur en 1 tap, et en V2 la mémoire des flashs précédents. Puis montrer les recettes : la première est 100 % faisable, les autres ont au plus 1 ingrédient manquant, affiché clairement.">
+  <div class="kicker">Moment de vérité n° 1 · ingrédients et recettes</div>
+  <div style="display:grid;grid-template-columns:auto auto 1fr;gap:36px;flex:1;align-items:center">
+    <div class="phone" style="--w:236px"><img src="assets/captures/07-ingredients-edit.png" alt=""></div>
+    <div class="phone" style="--w:236px"><img src="assets/captures/08-recettes.png" alt=""></div>
+    <div>
+      <h2 style="font-size:40px">Comment l'app sait ce qui va <span class="mark">périmer</span> ?</h2>
+      <p class="muted" style="margin-top:12px">Une photo ne montre pas les dates. FrigoFlash croise quatre signaux :</p>
+      <div style="display:grid;gap:12px;margin-top:18px">
+        <div class="row" style="align-items:center;gap:14px"><div class="ico c" style="width:38px;height:38px"><i data-icon="search" data-size="20"></i></div><p class="small"><b>L'aspect visible</b> : courgette molle, salade qui fane</p></div>
+        <div class="row" style="align-items:center;gap:14px"><div class="ico l" style="width:38px;height:38px"><i data-icon="hourglass" data-size="20"></i></div><p class="small"><b>La durée de vie type</b> : yaourt, viande hachée, herbes</p></div>
+        <div class="row" style="align-items:center;gap:14px"><div class="ico m" style="width:38px;height:38px"><i data-icon="check" data-size="20"></i></div><p class="small"><b>Ta correction en 1 tap</b> si l'IA se trompe</p></div>
+        <div class="row" style="align-items:center;gap:14px"><div class="ico" style="width:38px;height:38px;background:var(--gris-100);color:var(--gris-600)"><i data-icon="clock" data-size="20"></i></div><p class="small"><b>La mémoire du frigo</b> entre deux flashs <span class="pill g" style="padding:4px 8px;font-size:11px">V2</span></p></div>
+      </div>
+      <div class="card ink" style="margin-top:20px;padding:16px 20px"><p class="small" style="color:#d6d0c4"><b style="color:var(--flash)">La règle des recettes :</b> au moins 1 sur 3 faisable à 100 % avec ton frigo et ton placard (sel, poivre, huile, eau), les autres avec 1 ingrédient manquant maximum.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== 11. ZOOM IMPACT -->
+<section class="slide" data-spk="B" data-title="Zoom : la récompense"
+ data-notes="B : « Deuxième moment de vérité : la récompense. Quand Inès a cuisiné, on la félicite, sans jamais la culpabiliser : on parle de ce qu'elle a sauvé, pas de ce qu'elle a jeté. » Montrer les 4 compteurs. Puis anticiper la question du jury sur les calculs : « Tous les chiffres sont sourcés : 4 euros par kilo d'après l'ADEME, 2,5 kg de CO2 par kilo d'après la FAO. On ne compte que les produits frais : les pâtes sèches ne risquaient pas d'être jetées. »">
+  <div class="kicker">Moment de vérité n° 2 · la récompense</div>
+  <div style="display:grid;grid-template-columns:1fr auto auto;gap:36px;flex:1;align-items:center">
+    <div>
+      <h2 style="font-size:42px">On fête ce que tu <span class="mark">sauves.</span><br>Jamais ce que tu jettes.</h2>
+      <div class="grid" style="grid-template-columns:1fr 1fr;gap:12px;margin-top:24px">
+        <div class="card ink" style="padding:16px 18px"><div class="num" style="color:var(--flash);font-size:38px">3,2<small>kg</small></div><p class="tiny" style="color:#bdb7ab;margin-top:6px">de nourriture sauvée ce mois</p></div>
+        <div class="card ink" style="padding:16px 18px"><div class="num" style="color:var(--menthe);font-size:38px">12,80<small>€</small></div><p class="tiny" style="color:#bdb7ab;margin-top:6px">de nourriture sauvée (× 4 €/kg)</p></div>
+        <div class="card ink" style="padding:16px 18px"><div class="num" style="color:var(--corail);font-size:38px">8,0<small>kg CO₂e</small></div><p class="tiny" style="color:#bdb7ab;margin-top:6px">évités (× 2,5 kg CO₂e/kg)</p></div>
+        <div class="card ink" style="padding:16px 18px"><div class="num" style="color:var(--creme);font-size:38px">12 · 4<small>j</small></div><p class="tiny" style="color:#bdb7ab;margin-top:6px">repas cuisinés · jours de série</p></div>
+      </div>
+      <p class="tiny" style="margin-top:14px">Seuls les ingrédients frais ou urgents comptent. Sources : ADEME (100-160 € pour 20-30 kg, soit ≈ 4 €/kg) · FAO 2013 (3,3 Gt CO₂e pour ≈ 1,3 Gt gaspillées).</p>
+    </div>
+    <div class="phone" style="--w:228px"><img src="assets/captures/10-celebrate.png" alt=""></div>
+    <div class="phone" style="--w:228px"><img src="assets/captures/11-impact.png" alt=""></div>
+  </div>
+</section>
+
+<!-- =========================================================== 12. ROBUSTESSE -->
+<section class="slide" data-spk="B" data-title="Robustesse : les cas limites"
+ data-notes="B : « Un jury aime casser les démos. On a testé ce qu'il pourrait essayer. » Frigo vide : message humoristique et 3 recettes de placard. Régime incompatible (vegan + allergie œufs sur le frigo étudiant) : une seule recette, avec un message clair. Mode pas à pas avec minuteur pour cuisiner. Et tout marche hors ligne, en double-cliquant sur le fichier, sans serveur, sans clé API. « Le double clic sur J'ai cuisiné ça ne compte pas deux fois, et un rechargement garde votre prénom, vos favoris et votre impact. »">
+  <div class="kicker">Robustesse · ce qu'un jury pourrait tester</div>
+  <h2>On a essayé de <span class="mark">casser</span> l'app.</h2>
+  <div style="display:grid;grid-template-columns:auto auto 1fr;gap:34px;flex:1;align-items:center;margin-top:10px">
+    <div class="phone" style="--w:200px"><img src="assets/captures/12-vide-recettes.png" alt=""></div>
+    <div class="phone" style="--w:200px"><img src="assets/captures/14-timer.png" alt=""></div>
+    <div class="grid" style="grid-template-columns:1fr 1fr;gap:14px">
+      <div class="card" style="padding:18px"><div class="row" style="align-items:center;gap:10px"><span style="font-size:22px">🕸️</span><h3 style="font-size:18px">Frigo vide</h3></div><p class="small muted" style="margin-top:8px">« Plus vide que mon compte en fin de mois » : 3 recettes de placard.</p></div>
+      <div class="card" style="padding:18px"><div class="row" style="align-items:center;gap:10px"><span style="font-size:22px">🌱</span><h3 style="font-size:18px">Régime + allergies</h3></div><p class="small muted" style="margin-top:8px">Vegan sans œufs sur le frigo étudiant : 1 recette compatible, et un message clair.</p></div>
+      <div class="card" style="padding:18px"><div class="row" style="align-items:center;gap:10px"><span style="font-size:22px">⏱️</span><h3 style="font-size:18px">Mode pas à pas</h3></div><p class="small muted" style="margin-top:8px">Une étape par écran, gros texte, minuteur intégré.</p></div>
+      <div class="card" style="padding:18px"><div class="row" style="align-items:center;gap:10px"><span style="font-size:22px">📴</span><h3 style="font-size:18px">Hors ligne</h3></div><p class="small muted" style="margin-top:8px">Double-clic sur le fichier : pas de serveur, pas de clé, pas de Wi-Fi.</p></div>
+      <div class="card" style="padding:18px"><div class="row" style="align-items:center;gap:10px"><span style="font-size:22px">👆</span><h3 style="font-size:18px">Double clic</h3></div><p class="small muted" style="margin-top:8px">« J'ai cuisiné ça ! » ne compte qu'une fois.</p></div>
+      <div class="card" style="padding:18px"><div class="row" style="align-items:center;gap:10px"><span style="font-size:22px">♿</span><h3 style="font-size:18px">Accessible</h3></div><p class="small muted" style="margin-top:8px">Zones tactiles ≥ 44 px, urgence = couleur + icône + mot.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== 13. DEMO LIVE -->
+<section class="slide on-ink" data-spk="B" data-title="Démo live"
+ data-notes="B : lancer la démo en direct (ouvrir app/index.html, déjà réinitialisée avant la soutenance). Suivre le panneau d'aide à gauche de l'écran, il rappelle les 5 étapes. Pendant que B manipule, A peut commenter (« là, on retire la bière… »). Si la démo plante, revenir à la slide 9 qui montre les mêmes écrans. Après la démo, rendre la parole à A.">
+  <div style="display:grid;grid-template-columns:1fr 1.35fr;gap:44px;flex:1;align-items:center">
+    <div>
+      <div class="kicker"><b>Démo</b> en direct · 60 secondes</div>
+      <h1 style="font-size:72px">À vous de <span class="mark">voir.</span></h1>
+      <ol style="margin-top:28px;display:grid;gap:12px;list-style:none;counter-reset:s">
+        <li class="row" style="align-items:center;gap:14px"><span class="ico y" style="width:30px;height:30px;border-radius:50%;font:800 14px var(--display);color:var(--encre)">1</span><span>Flasher le <b>frigo étudiant</b></span></li>
+        <li class="row" style="align-items:center;gap:14px"><span class="ico y" style="width:30px;height:30px;border-radius:50%;font:800 14px var(--display);color:var(--encre)">2</span><span>Retirer la bière, ajouter la farine</span></li>
+        <li class="row" style="align-items:center;gap:14px"><span class="ico y" style="width:30px;height:30px;border-radius:50%;font:800 14px var(--display);color:var(--encre)">3</span><span>Ouvrir le <b>riz sauté</b></span></li>
+        <li class="row" style="align-items:center;gap:14px"><span class="ico y" style="width:30px;height:30px;border-radius:50%;font:800 14px var(--display);color:var(--encre)">4</span><span>« J'ai cuisiné ça ! »</span></li>
+        <li class="row" style="align-items:center;gap:14px"><span class="ico y" style="width:30px;height:30px;border-radius:50%;font:800 14px var(--display);color:var(--encre)">5</span><span>Voir l'impact : 2,6 → 3,2 kg</span></li>
+      </ol>
+    </div>
+    <div style="border-radius:16px;overflow:hidden;border:3px solid #3a3b44;box-shadow:0 30px 60px rgba(0,0,0,.4)"><div style="height:22px;background:#2b2d36;display:flex;gap:6px;align-items:center;padding-left:10px"><i style="width:9px;height:9px;border-radius:50%;background:#FF6B4A"></i><i style="width:9px;height:9px;border-radius:50%;background:#FFD60A"></i><i style="width:9px;height:9px;border-radius:50%;background:#3DDBA0"></i></div><img src="assets/captures/ordi-accueil.png" style="width:100%;display:block" alt=""></div>
+  </div>
+</section>
+
+<!-- =========================================================== 14. INTERCALAIRE 03 MARQUE -->
+<section class="slide on-ink divider" data-spk="B" data-title="Intercalaire : la marque"
+ data-notes="B : « Une app, c'est aussi une marque. Voici l'identité visuelle que l'IA a créée. »">
+  <div class="bignum">03</div>
+  <div class="kicker"><b>03</b> La marque</div>
+  <h1>Du jaune <span class="mark">éclair</span>, pas du vert bio.</h1>
+  <p class="lead">Un copain malin qui ouvre ton frigo, pas un écolo moralisateur.</p>
+</section>
+
+<!-- =========================================================== 15. IDENTITÉ -->
+<section class="slide" data-spk="B" data-title="Identité visuelle"
+ data-notes="B : « Le logo : un frigo dont la poignée est un éclair, avec les trois rayons d'un flash photo. Frigo, le lieu. Flash, la photo et l'idée instantanée. » Couleur : « On a volontairement évité le vert, partout dans l'anti-gaspi (Too Good To Go, applis bio). Le jaune éclair porte le nom et donne envie de taper. Le corail signale l'urgence, toujours avec un sablier et un mot, pour les daltoniens. » Typo : Bricolage Grotesque pour les titres, un peu fait main, gourmand ; DM Sans pour le texte, très lisible.">
+  <div class="kicker">Identité visuelle · DA v1.0</div>
+  <div style="display:grid;grid-template-columns:1fr 1.15fr;gap:26px;flex:1">
+    <div class="grid" style="grid-template-rows:1.25fr 1fr;gap:20px">
+      <div class="card" style="display:flex;align-items:center;justify-content:space-around;gap:20px">
+        <div data-logo="vertical" style="width:190px"></div>
+        <div style="display:grid;gap:14px;justify-items:center">
+          <div data-logo="icon" style="width:96px"></div>
+          <div data-logo="icon-dark" style="width:96px"></div>
+        </div>
+      </div>
+      <div class="card ink" style="display:flex;flex-direction:column;justify-content:center">
+        <div data-logo="horizontal-neg" style="width:260px"></div>
+        <p class="small" style="color:#bdb7ab;margin-top:16px">Un frigo, une poignée-éclair, les 3 rayons du flash. Le surligneur jaune sous « Flash » revient partout dans l'app : un seul mot surligné par écran.</p>
+      </div>
+    </div>
+    <div class="grid" style="grid-template-rows:auto 1fr;gap:20px">
+      <div class="card">
+        <p class="kicker" style="margin-bottom:12px">Palette</p>
+        <div id="palette" style="display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1fr;gap:10px;height:132px"></div>
+      </div>
+      <div class="card" style="display:grid;grid-template-columns:1fr 1fr;gap:18px">
+        <div><p class="kicker" style="margin-bottom:6px">Titres</p><div style="font:800 76px/1 var(--display);letter-spacing:-.04em">Aa</div><p style="font:700 20px/1.2 var(--display);margin-top:6px">Bricolage Grotesque</p><p class="tiny" style="margin-top:4px">700-800 · expressive, un peu « fait main », gourmande</p><p style="font:800 26px/1.05 var(--display);letter-spacing:-.03em;margin-top:18px">On sauve quoi <span class="mark">ce soir</span> ?</p></div>
+        <div><p class="kicker" style="margin-bottom:6px">Texte</p><div style="font:500 76px/1 var(--body);letter-spacing:-.03em">Aa</div><p style="font:700 18px/1.2 var(--body);margin-top:6px">DM Sans</p><p class="tiny" style="margin-top:4px">400 · 500 · 700 · très lisible en petit, jamais &lt; 16 px</p><p style="font-size:16px;line-height:1.5;margin-top:18px">Coupe la courgette en petits dés. Fais chauffer 1 c. à soupe d'huile.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== 16. ILLUSTRATIONS -->
+<section class="slide" data-spk="B" data-title="Illustrations et icônes"
+ data-notes="B : « Pas de photos, pas de mascotte : 16 illustrations vectorielles dessinées pour l'app, dans un style plat avec un contour encre. Les 4 frigos de démo, avec les aliments urgents marqués d'une pastille corail, et la toile d'araignée du frigo vide. Et 12 plats vus du dessus, avec les rayons du logo. » Préciser que tout est en SVG : léger, net à toutes les tailles, sans droits d'image.">
+  <div class="kicker">Illustrations · 16 SVG faits main par l'IA · 41 icônes Lucide</div>
+  <h2>Des frigos qui ont de la <span class="mark">personnalité.</span></h2>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:22px">
+    <div class="card" style="padding:10px;text-align:center"><img src="assets/illus/frigo-etudiant.svg" style="height:250px" alt=""><p class="small" style="font-weight:700">Frigo étudiant</p></div>
+    <div class="card" style="padding:10px;text-align:center"><img src="assets/illus/frigo-dimanche.svg" style="height:250px" alt=""><p class="small" style="font-weight:700">Frigo du dimanche soir</p></div>
+    <div class="card" style="padding:10px;text-align:center"><img src="assets/illus/frigo-vege.svg" style="height:250px" alt=""><p class="small" style="font-weight:700">Frigo végé</p></div>
+    <div class="card" style="padding:10px;text-align:center"><img src="assets/illus/frigo-vide.svg" style="height:250px" alt=""><p class="small" style="font-weight:700">Frigo (presque) vide</p></div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-top:16px">
+    <img src="assets/illus/riz-saute-oeufs-courgette.svg" class="rec" alt="">
+    <img src="assets/illus/shakshuka-express.svg" class="rec" alt="">
+    <img src="assets/illus/curry-pois-chiches-epinards.svg" class="rec" alt="">
+    <img src="assets/illus/omelette-courgette-fromage.svg" class="rec" alt="">
+    <img src="assets/illus/salade-carottes-feta-citron.svg" class="rec" alt="">
+    <img src="assets/illus/placard-pates-beurre-citron.svg" class="rec" alt="">
+  </div>
+  <p class="tiny" style="margin-top:14px">Style flat, contour encre 3 px, couleurs de la palette. Aliments urgents marqués d'une pastille corail avec sablier. Pas de photo, pas de mascotte, pas de cliché écolo (feuille, planète).</p>
+  <style>.rec{ width:100%; aspect-ratio:360/200; object-fit:cover; border-radius:14px; border:2px solid var(--encre); display:block; }</style>
+</section>
+
+<!-- =========================================================== 17. LOGO V1.1 -->
+<section class="slide" data-spk="B" data-title="Proposition : logo v1.1"
+ data-notes="B : montrer qu'on sait se remettre en question. « En relisant la DA, notre agent critique a relevé un défaut : en petit, un rectangle noir avec un éclair au milieu, ça se lit comme une batterie qui charge. » Montrer la v1.1 : deux petits pieds, une poignée sur la porte du haut, et l'éclair qui devient la poignée de la porte du bas. « Même idée, mais on reconnaît un frigo même à 24 pixels. » Si la v1.1 n'est pas retenue, supprimer cette slide.">
+  <div class="kicker">Itération · l'œil critique de l'IA</div>
+  <h2>« Ton logo ressemble à une <span class="mark">batterie.</span> »</h2>
+  <p class="lead" style="margin-top:10px">Remarque de l'agent critique sur la DA. Notre réponse : 3 détails qui disent « frigo » au premier coup d'œil.</p>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:26px;flex:1">
+    <div class="card flat" style="display:flex;flex-direction:column">
+      <div class="row" style="align-items:center;justify-content:space-between"><h3>v1.0 · actuel</h3><span class="pill c"><i data-icon="hourglass" data-size="14"></i>se lit « batterie »</span></div>
+      <div class="row" style="align-items:flex-end;gap:30px;margin:auto 0;justify-content:center">
+        <img src="assets/logo/symbole.svg" style="width:150px" alt="">
+        <div style="width:96px;height:96px;background:var(--flash);border-radius:22px;display:grid;place-items:center"><img src="assets/logo/symbole.svg" style="width:66px" alt=""></div>
+        <div style="width:44px;height:44px;background:var(--flash);border-radius:10px;display:grid;place-items:center"><img src="assets/logo/symbole.svg" style="width:30px" alt=""></div>
+        <img src="assets/logo/symbole.svg" style="width:22px" alt="">
+      </div>
+    </div>
+    <div class="card pop" style="display:flex;flex-direction:column">
+      <div class="row" style="align-items:center;justify-content:space-between"><h3>v1.1 · proposé</h3><span class="pill m"><i data-icon="check" data-size="14"></i>se lit « frigo »</span></div>
+      <div class="row" style="align-items:flex-end;gap:30px;margin:auto 0;justify-content:center">
+        <img src="assets/logo/symbole-v1.1.svg" style="width:150px" alt="">
+        <div style="width:96px;height:96px;background:var(--flash);border-radius:22px;display:grid;place-items:center"><img src="assets/logo/symbole-v1.1.svg" style="width:66px" alt=""></div>
+        <div style="width:44px;height:44px;background:var(--flash);border-radius:10px;display:grid;place-items:center"><img src="assets/logo/symbole-v1.1.svg" style="width:30px" alt=""></div>
+        <img src="assets/logo/symbole-v1.1.svg" style="width:22px" alt="">
+      </div>
+    </div>
+  </div>
+  <div class="row" style="gap:12px;margin-top:16px;justify-content:center">
+    <span class="pill k">① 2 pieds</span><span class="pill k">② une poignée sur la porte du haut</span><span class="pill k">③ l'éclair devient la poignée du bas</span><span class="pill g">rayons du flash conservés</span>
+  </div>
+</section>
+
+<!-- =========================================================== 18. INTERCALAIRE 04 BUSINESS -->
+<section class="slide on-ink divider" data-spk="A" data-title="Intercalaire : le business"
+ data-notes="A : « Merci [B]. Une belle app, c'est bien. Une app qui peut vivre, c'est mieux. »">
+  <div class="bignum">04</div>
+  <div class="kicker"><b>04</b> Le business</div>
+  <h1>Faire payer le <span class="mark">confort</span>, jamais la sécurité.</h1>
+  <p class="lead">Concurrence, modèle économique et projections (scénarios d'école, pas des promesses).</p>
+</section>
+
+<!-- =========================================================== 19. CONCURRENCE -->
+<section class="slide" data-spk="A" data-title="Concurrence et positionnement"
+ data-notes="A : expliquer la carte. « En horizontal, l'effort de saisie : à gauche il faut tout taper, à droite rien. En vertical : simple inspiration de recettes en bas, vraie logique anti-gaspi en haut. » FrigoFlash est seul en haut à droite. ChatGPT accepte une photo mais reste générique et n'a aucune mémoire. Les frigos connectés coûtent environ 2 000 euros (taille de la bulle = prix). Too Good To Go agit avant l'achat : c'est un partenaire potentiel. Phrase clé : « ChatGPT sait répondre. FrigoFlash sait se souvenir. »">
+  <div class="kicker">Concurrence</div>
+  <div style="display:grid;grid-template-columns:1.25fr 1fr;gap:34px;flex:1">
+    <div class="card" style="padding:18px 20px"><svg id="posMap" width="640" height="500" viewBox="0 0 640 500"></svg></div>
+    <div style="display:flex;flex-direction:column">
+      <h2 style="font-size:36px">Seul à combiner <span class="mark">zéro saisie</span> et anti&#8209;gaspi.</h2>
+      <p class="muted" style="margin-top:14px">La reconnaissance d'aliments par photo existe déjà. La nouveauté, c'est la combinaison :</p>
+      <div style="display:grid;gap:10px;margin-top:16px">
+        <div class="row" style="gap:12px;align-items:center"><div class="ico y" style="width:34px;height:34px"><i data-icon="camera" data-size="18"></i></div><p class="small"><b>Photo → recettes</b> en un geste, sans frigo à 2 000 €</p></div>
+        <div class="row" style="gap:12px;align-items:center"><div class="ico y" style="width:34px;height:34px"><i data-icon="leaf" data-size="18"></i></div><p class="small"><b>Anti-gaspi natif</b> : la recette qui sauve le plus</p></div>
+        <div class="row" style="gap:12px;align-items:center"><div class="ico y" style="width:34px;height:34px"><i data-icon="clock" data-size="18"></i></div><p class="small"><b>Mémoire du frigo</b> entre deux flashs</p></div>
+        <div class="row" style="gap:12px;align-items:center"><div class="ico y" style="width:34px;height:34px"><i data-icon="chart-no-axes-column" data-size="18"></i></div><p class="small"><b>Impact visible</b> et ludique</p></div>
+      </div>
+      <div class="card ink" style="margin-top:auto;padding:18px 22px"><p style="font:800 24px/1.15 var(--display)">ChatGPT sait répondre.<br><span style="color:var(--flash)">FrigoFlash sait se souvenir.</span></p></div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== 20. MODÈLE -->
+<section class="slide" data-spk="A" data-title="Business model"
+ data-notes="A : « Modèle freemium. En gratuit : 5 flashs par semaine, et surtout le régime et les allergies. Faire payer quelqu'un pour manger halal ou sans gluten serait mal perçu, et risqué pour les allergies. » FrigoFlash+ à 2,99 € par mois vend le confort : flashs illimités, filtres, rappels de péremption, mémoire du frigo, frigo partagé. Revenus complémentaires : affiliation drive (modeste, on pousse à acheter moins, on l'assume), recettes sponsorisées signalées, données anonymisées pour les collectivités. Côté coûts : l'IA coûte environ 0,2 à 0,5 centime par flash avec un petit modèle, et le plafond gratuit protège du pire cas.">
+  <div class="kicker">Business model · freemium</div>
+  <h2>Gratuit pour <span class="mark">tous</span>, + pour les accros.</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;margin-top:24px;flex:1">
+    <div class="card" style="display:flex;flex-direction:column">
+      <p class="kicker" style="margin-bottom:6px">Gratuit</p><div class="num">0<small>€</small></div>
+      <ul class="small" style="list-style:none;display:grid;gap:9px;margin-top:18px">
+        <li>✓ 5 flashs / semaine, 3 recettes par flash</li>
+        <li>✓ <b>Régime et allergies</b> (végé, vegan, halal, sans gluten, sans lactose)</li>
+        <li>✓ Favoris et compteur d'impact</li>
+      </ul>
+      <p class="tiny" style="margin-top:auto">On fait payer le confort, pas la sécurité ni les convictions.</p>
+    </div>
+    <div class="card pop" style="display:flex;flex-direction:column;background:var(--flash)">
+      <div class="row" style="justify-content:space-between;align-items:center"><p class="kicker" style="margin-bottom:6px;color:var(--encre)">FrigoFlash+</p><span class="pill k">4 % des actifs</span></div>
+      <div class="num">2,99<small>€/mois</small></div><p class="small" style="margin-top:4px">ou 24,99 €/an</p>
+      <ul class="small" style="list-style:none;display:grid;gap:9px;margin-top:16px">
+        <li class="row" style="gap:8px;align-items:flex-start"><i data-icon="zap" data-size="16" data-stroke="2.4" style="margin-top:3px;flex:none"></i><span>Flashs illimités</span></li><li class="row" style="gap:8px;align-items:flex-start"><i data-icon="zap" data-size="16" data-stroke="2.4" style="margin-top:3px;flex:none"></i><span>Filtres temps, budget, niveau, batch cooking</span></li><li class="row" style="gap:8px;align-items:flex-start"><i data-icon="zap" data-size="16" data-stroke="2.4" style="margin-top:3px;flex:none"></i><span>Rappels de péremption, mémoire du frigo</span></li><li class="row" style="gap:8px;align-items:flex-start"><i data-icon="zap" data-size="16" data-stroke="2.4" style="margin-top:3px;flex:none"></i><span>Frigo partagé (coloc, couple)</span></li>
+      </ul>
+    </div>
+    <div style="display:grid;gap:14px;grid-template-rows:1fr auto">
+      <div class="card">
+        <p class="kicker" style="margin-bottom:12px">Revenus complémentaires</p>
+        <div style="display:grid;gap:10px" class="small">
+          <div class="row" style="gap:10px;align-items:center"><div class="ico m" style="width:30px;height:30px;border-radius:9px"><i data-icon="shopping-basket" data-size="16"></i></div>Affiliation drive « il te manque juste… » (2-5 %)</div>
+          <div class="row" style="gap:10px;align-items:center"><div class="ico m" style="width:30px;height:30px;border-radius:9px"><i data-icon="utensils" data-size="16"></i></div>Recettes de marques, clairement signalées</div>
+          <div class="row" style="gap:10px;align-items:center"><div class="ico m" style="width:30px;height:30px;border-radius:9px"><i data-icon="chart-no-axes-column" data-size="16"></i></div>Tendances anonymisées (RGPD) pour collectivités</div>
+          <div class="row" style="gap:10px;align-items:center"><div class="ico m" style="width:30px;height:30px;border-radius:9px"><i data-icon="heart" data-size="16"></i></div>Partenariat Too Good To Go</div>
+        </div>
+      </div>
+      <div class="card ink" style="padding:16px 20px"><p class="small" style="color:#d6d0c4">Coût IA : <b style="color:var(--flash)">≈ 0,002-0,005 € par flash</b> avec un petit modèle vision, soit ≈ 0,02 €/mois par utilisateur.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== 21. PROJECTIONS -->
+<section class="slide" data-spk="A" data-title="Projections financières"
+ data-notes="A : bien dire que ce sont des scénarios d'école. « Fin d'année 1 : 50 000 utilisateurs actifs, 250 000 en année 2, 800 000 en année 3, avec 4 % d'abonnés. Le chiffre d'affaires passe de 60 000 euros à environ un million. Le coût de l'IA reste autour de 20 % du chiffre d'affaires grâce à un petit modèle. » Préciser : on montre une marge brute, hors salaires et acquisition, et le CA est net de la commission des stores (15 %).">
+  <div class="kicker">Projections · scénario d'école</div>
+  <h2>≈ <span class="mark">1 M€</span> de chiffre d'affaires en année 3.</h2>
+  <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:26px;margin-top:22px;flex:1">
+    <div class="card ink" style="padding:20px 24px 14px"><svg id="projChart" width="640" height="440" viewBox="0 0 640 440"></svg></div>
+    <div style="display:grid;gap:14px;grid-template-rows:repeat(3,1fr) auto">
+      <div class="card row" style="align-items:center;gap:16px;padding:16px 20px"><div class="ico y"><i data-icon="user"></i></div><div><div class="num" style="font-size:34px">50 k → 800 k</div><p class="tiny">utilisateurs actifs mensuels (fin A1 → fin A3)</p></div></div>
+      <div class="card row" style="align-items:center;gap:16px;padding:16px 20px"><div class="ico y"><i data-icon="award"></i></div><div><div class="num" style="font-size:34px">2 000 → 32 000</div><p class="tiny">abonnés FrigoFlash+ (4 %)</p></div></div>
+      <div class="card row" style="align-items:center;gap:16px;padding:16px 20px"><div class="ico m"><i data-icon="euro"></i></div><div><div class="num" style="font-size:34px">≈ 825 k€</div><p class="tiny">marge brute en A3 (CA − coût IA)</p></div></div>
+      <p class="tiny">CA net de la commission des stores (15 %). Hors salaires et acquisition : c'est une marge brute, pas un bénéfice. Hachures = projection.</p>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== 22. IMPACT -->
+<section class="slide on-ink" data-spk="A" data-title="L'impact à l'échelle"
+ data-notes="A : « Et l'impact ? Notre objectif : un demi-kilo sauvé par utilisateur et par mois. C'est 20 à 25 % de ce qu'une personne gaspille : ambitieux mais défendable. Pour chacun, ça fait 2 euros et 1,25 kg de CO2 par mois. » Puis l'échelle : « Avec 800 000 utilisateurs, 4 800 tonnes de nourriture sauvées et 12 000 tonnes de CO2e évitées en année 3. » Rappeler les mêmes règles que dans l'app.">
+  <div class="kicker"><b>Impact</b> objectif : 0,5 kg sauvé / utilisateur / mois</div>
+  <h2>4 800 t de nourriture <span class="mark">sauvées</span> en année 3.</h2>
+  <div style="display:grid;grid-template-columns:1fr 1.55fr;gap:30px;margin-top:24px;flex:1">
+    <div style="display:grid;gap:14px;align-content:center">
+      <p class="small" style="color:#bdb7ab;font-weight:700">Pour une personne, chaque mois</p>
+      <div class="row" style="gap:14px;align-items:baseline"><div class="num" style="color:var(--flash)">0,5<small>kg</small></div><p class="small" style="color:#bdb7ab">sauvés, soit 20-25 % de son gaspillage</p></div>
+      <div class="row" style="gap:14px;align-items:baseline"><div class="num" style="color:var(--menthe)">2<small>€</small></div><p class="small" style="color:#bdb7ab">de nourriture (× 4 €/kg, ADEME)</p></div>
+      <div class="row" style="gap:14px;align-items:baseline"><div class="num" style="color:var(--corail)">1,25<small>kg</small></div><p class="small" style="color:#bdb7ab">de CO₂e évités (× 2,5, FAO 2013)</p></div>
+    </div>
+    <div style="background:#1f2028;border-radius:20px;padding:18px 22px 10px"><svg id="impactChart" width="690" height="440" viewBox="0 0 690 440"></svg></div>
+  </div>
+</section>
+
+<!-- =========================================================== 23. ROADMAP -->
+<section class="slide" data-spk="B" data-title="Roadmap"
+ data-notes="B : « Aujourd'hui, on a un prototype complet en mode démo. Étape suivante : brancher un vrai modèle vision, avec un objectif de moins de 10 secondes entre la photo et les recettes. Puis la V2 : mémoire du frigo, rappels de péremption, frigo partagé et l'abonnement. Et à terme les partenariats : drive, Too Good To Go, collectivités. » Lancement : campus d'abord (ambassadeurs, BDE, CROUS), puis TikTok, le format parfait pour « j'ai flashé le frigo de ma coloc ».">
+  <div class="kicker">Roadmap</div>
+  <h2>Du prototype au <span class="mark">campus</span>, puis partout.</h2>
+  <div id="roadmap" style="position:relative;margin-top:30px"></div>
+  <p class="kicker" style="margin:26px 0 10px">Ce qu'on mesurera</p>
+  <div class="grid" style="grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:14px">
+    <div class="card ink" style="padding:14px 18px"><div class="num" style="font-size:30px;color:var(--flash)">&lt; 10 s</div><p class="tiny" style="color:#bdb7ab;margin-top:4px">de la photo aux recettes (vraie IA)</p></div>
+    <div class="card ink" style="padding:14px 18px"><div class="num" style="font-size:30px;color:var(--flash)">≥ 30 %</div><p class="tiny" style="color:#bdb7ab;margin-top:4px">des flashs finissent en « J'ai cuisiné ça ! »</p></div>
+    <div class="card ink" style="padding:14px 18px"><div class="num" style="font-size:30px;color:var(--menthe)">25 % · 12 %</div><p class="tiny" style="color:#bdb7ab;margin-top:4px">rétention à 7 jours · à 30 jours</p></div>
+    <div class="card ink" style="padding:14px 18px"><div class="num" style="font-size:30px;color:var(--menthe)">3-5 %</div><p class="tiny" style="color:#bdb7ab;margin-top:4px">conversion vers FrigoFlash+</p></div>
+  </div>
+  <div class="card flat row" style="align-items:center;gap:18px;padding:12px 20px;margin-top:auto;margin-bottom:6px">
+    <div class="ico y"><i data-icon="sparkles"></i></div>
+    <p class="small"><b>Lancement :</b> ambassadeurs campus, BDE et CROUS, défis « Semaine zéro gâchis » · vidéos TikTok / Reels (« j'ai flashé le frigo de ma coloc… ») · partenariats associations anti-gaspi.</p>
+  </div>
+</section>
+
+<!-- =========================================================== 24. INTERCALAIRE 05 MAKING-OF -->
+<section class="slide on-ink divider" data-spk="A" data-title="Intercalaire : le making-of"
+ data-notes="A : « Dernière partie, et c'est celle dont on est le plus fiers : comment on a fabriqué tout ça. »">
+  <div class="bignum">05</div>
+  <div class="kicker"><b>05</b> Le making-of</div>
+  <h1>Tout a été fait par <span class="mark">l'IA.</span></h1>
+  <p class="lead">Analyse, identité visuelle, code et cette présentation. Notre rôle : donner le cap, répondre aux questions, décider.</p>
+</section>
+
+<!-- =========================================================== 25. PIPELINE -->
+<section class="slide" data-spk="A" data-title="Le pipeline IA"
+ data-notes="A : « On n'a pas demandé à une IA de tout faire d'un coup. On a monté une chaîne de production, comme dans une vraie agence. Un agent analyste a fait l'étude : marché, personas, concurrence, business. Un agent directeur artistique a créé la marque. Un agent développeur a codé l'app. Un dernier agent a fait cette présentation. » Insister sur la nouveauté : « Et entre chaque étape, un agent critique relisait le travail comme un jury, et les corrections étaient appliquées avant de passer à la suite. » Notre rôle à nous : le brief, 6 réponses de cadrage, et les décisions.">
+  <div class="kicker">Making-of · une chaîne d'agents IA</div>
+  <h2>4 agents qui produisent, 1 agent qui <span class="mark">critique.</span></h2>
+  <svg id="pipeline" width="1136" height="200" viewBox="0 0 1136 200" style="margin-top:20px"></svg>
+  <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:10px;flex:1;margin-bottom:12px">
+    <div class="card" style="padding:18px 20px;display:flex;flex-direction:column"><p class="kicker" style="margin-bottom:8px">① Analyse</p><p class="small">Problème, personas, concurrence, business model, projections, MVP, brief créatif</p><div class="num" style="font-size:44px;margin-top:auto">14<small>sections</small></div><p class="tiny">≈ 35 Ko de texte, sources citées</p></div>
+    <div class="card" style="padding:18px 20px;display:flex;flex-direction:column"><p class="kicker" style="margin-bottom:8px">② Direction artistique</p><p class="small">Logo (12 déclinaisons), palette, typo, tokens CSS, composants, 16 illustrations, 3 maquettes</p><div class="num" style="font-size:44px;margin-top:auto">16<small>illustrations</small></div><p class="tiny">+ 12 logos, 41 icônes, 2 polices</p></div>
+    <div class="card" style="padding:18px 20px;display:flex;flex-direction:column"><p class="kicker" style="margin-bottom:8px">③ Développement</p><p class="small">App HTML/CSS/JS, 11 écrans, 4 frigos, 18 recettes, mode cuisine, impact</p><div class="num" style="font-size:44px;margin-top:auto">≈ 2 000<small>lignes</small></div><p class="tiny">0 dépendance, marche hors ligne</p></div>
+    <div class="card" style="padding:18px 20px;display:flex;flex-direction:column"><p class="kicker" style="margin-bottom:8px">④ Présentation</p><p class="small">Ce PDF : 28 slides, graphiques SVG, captures de l'app, notes pour 2 voix</p><div class="num" style="font-size:44px;margin-top:auto">28<small>slides</small></div><p class="tiny">+ notes de l'oral en PDF</p></div>
+  </div>
+</section>
+
+<!-- =========================================================== 26. CRITIQUE -->
+<section class="slide" data-spk="B" data-title="L'esprit critique"
+ data-notes="B : « L'agent critique, c'est ce qui a fait la différence. » Montrer la progression des notes : l'analyse partait de 13 sur 20. Il a trouvé des chiffres incohérents (on prétendait sauver 2 kg par mois, quasiment tout le gaspillage d'une personne), un coût de l'IA sous-estimé et la commission des stores oubliée. Sur la DA : des boutons trop petits pour un pouce, et le logo-batterie. Sur l'app : des chiffres qui ne collaient pas entre l'intro et l'accueil. « Ce sont exactement les questions qu'un jury pose. On les a traitées avant vous. »">
+  <div class="kicker">Making-of · l'agent critique</div>
+  <h2>Chaque étape relue <span class="mark">comme un jury.</span></h2>
+  <div style="display:grid;grid-template-columns:1fr 1.3fr;gap:28px;margin-top:22px;flex:1">
+    <div class="card ink" style="padding:20px 22px 12px"><p class="small" style="color:#bdb7ab;font-weight:700">Note de l'agent critique, sur 20</p><svg id="scoreChart" width="440" height="420" viewBox="0 0 440 420"></svg></div>
+    <div style="display:grid;gap:12px">
+      <div class="card row" style="gap:16px;padding:16px 20px;align-items:flex-start"><span class="pill c" style="flex:none;width:76px;justify-content:center">Analyse</span><p style="font-size:15.5px;line-height:1.45"><b>KPI de 2 kg/mois</b>, soit presque tout le gaspillage d'une personne → ramené à 0,5 kg. <b>Coût IA et commission des stores</b> oubliés → ajoutés. Régime payant → gratuit.</p></div>
+      <div class="card row" style="gap:16px;padding:16px 20px;align-items:flex-start"><span class="pill c" style="flex:none;width:76px;justify-content:center">DA</span><p style="font-size:15.5px;line-height:1.45"><b>Zones tactiles de 36-40 px</b> → 44 px. Histogramme incohérent avec la série → corrigé. Bouton « Partager » sans fonction → retiré. <b>Logo « batterie »</b> → v1.1.</p></div>
+      <div class="card row" style="gap:16px;padding:16px 20px;align-items:flex-start"><span class="pill c" style="flex:none;width:76px;justify-content:center">App</span><p style="font-size:15.5px;line-height:1.45">Testée comme un jury : frigo vide, vegan + allergie, double clic, rechargement, vidéoprojecteur 1280 × 720. <b>0 erreur JavaScript.</b> 4 finitions repérées.</p></div>
+      <div class="card flat row" style="gap:14px;padding:14px 20px;align-items:center;background:transparent"><div class="ico y" style="width:36px;height:36px"><i data-icon="user" data-size="18"></i></div><p class="small"><b>Notre part humaine :</b> le brief, 6 réponses de cadrage (techno, IA, équipe, objectif, durée, style) et la validation de chaque étape.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== 27. CONCLUSION -->
+<section class="slide on-yellow" data-spk="AB" data-title="Conclusion"
+ data-notes="A : « Pour résumer : un vrai problème, 20 à 30 kg jetés par personne et par an. Une réponse en un geste. Et une app qui marche, aujourd'hui, devant vous. » B : « Le tout produit par l'IA, et relu par l'IA, avec nous aux commandes. » Ensemble : « Un flash, trois recettes, zéro gâchis. Merci ! Vous avez des questions ? » Questions probables : comment l'app connaît les dates (slide 10), que fait ChatGPT (slide 19), d'où viennent les chiffres (slide 28), pourquoi le jaune (slide 15).">
+  <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:40px;flex:1;align-items:center">
+    <div>
+      <div data-logo="horizontal" style="width:300px;margin-bottom:40px"></div>
+      <h1 style="font-size:80px">Un flash.<br>Trois recettes.<br>Zéro gâchis.</h1>
+      <p style="font-size:24px;margin-top:28px;font-weight:700">Merci ! Des questions ?</p>
+      <p class="small" style="margin-top:8px"><span data-names></span></p>
+    </div>
+    <div style="display:grid;gap:14px">
+      <div class="card pop row" style="gap:16px;align-items:center"><div class="ico k"><i data-icon="refrigerator"></i></div><p><b>Un vrai problème :</b> 20-30 kg jetés par personne et par an</p></div>
+      <div class="card pop row" style="gap:16px;align-items:center"><div class="ico k"><i data-icon="camera"></i></div><p><b>Une réponse en un geste :</b> une photo, 3 recettes</p></div>
+      <div class="card pop row" style="gap:16px;align-items:center"><div class="ico k"><i data-icon="circle-check"></i></div><p><b>Une app qui marche</b>, hors ligne, aujourd'hui</p></div>
+      <div class="card pop row" style="gap:16px;align-items:center"><div class="ico k"><i data-icon="sparkles"></i></div><p><b>100 % produit par l'IA</b>, relu par l'IA, piloté par nous</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- =========================================================== 28. SOURCES -->
+<section class="slide" data-spk="" data-title="Sources et méthode"
+ data-notes="Slide d'annexe, à garder pour les questions sur les chiffres.">
+  <div class="kicker">Annexe · sources et méthode</div>
+  <h2 style="font-size:36px">D'où viennent nos chiffres</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px;margin-top:22px">
+    <table class="t">
+      <tr><th>Chiffre</th><th>Source</th></tr>
+      <tr><td>10 Mt gaspillées / an en France, ≈ 16 Md€</td><td>ADEME, étude 2016</td></tr>
+      <tr><td>20-30 kg comestibles / pers. / an, dont ≈ 7 kg emballés</td><td>ADEME, ministère de l'Agriculture (« Ça suffit le gâchis »)</td></tr>
+      <tr><td>100-160 € / pers. / an (≈ 4 €/kg)</td><td>ADEME</td></tr>
+      <tr><td>79 kg / hab. / an (avec parties non comestibles)</td><td>ONU, Food Waste Index 2024</td></tr>
+      <tr><td>1/3 de la nourriture perdue ou gaspillée</td><td>FAO, 2011</td></tr>
+      <tr><td>8-10 % des émissions mondiales de GES</td><td>PNUE, Food Waste Index 2021 et 2024</td></tr>
+      <tr><td>2,5 kg CO₂e par kg gaspillé</td><td>FAO 2013 (3,3 Gt CO₂e / ≈ 1,3 Gt)</td></tr>
+    </table>
+    <div>
+      <table class="t">
+        <tr><th>Hypothèse</th><th>Valeur</th></tr>
+        <tr><td>Conversion vers FrigoFlash+</td><td>4 % des actifs (souvent 2-5 %)</td></tr>
+        <tr><td>Commission des stores</td><td>15 % (programme petites entreprises)</td></tr>
+        <tr><td>Coût IA par flash (petit modèle vision)</td><td>0,002-0,005 €</td></tr>
+        <tr><td>Flashs par utilisateur actif</td><td>6 / mois</td></tr>
+        <tr><td>Nourriture sauvée</td><td>0,5 kg / utilisateur / mois</td></tr>
+      </table>
+      <p class="tiny" style="margin-top:16px">Projections fictives, présentées comme des scénarios d'école. Abonnés comptés sur toute l'année (hypothèse optimiste). Dans l'app, seuls les ingrédients frais ou urgents comptent dans les kg sauvés. Le prototype fonctionne en mode démo : l'analyse est simulée, au format JSON qu'enverrait un vrai modèle vision.</p>
+    </div>
+  </div>
+</section>
+
+<script src="assets/icons.js"></script>
+<script>
+/* ============ Réglages ============ */
+const SPEAKERS = { A: "Présentateur A", B: "Présentateur B" };   // ← mettre vos prénoms
+const LOGO_VERSION = "1.0";                                      // "1.1" pour la retouche proposée
+
+/* ============ Logos ============ */
+const sym = LOGO_VERSION === "1.1" ? "assets/logo/symbole-v1.1.svg" : "assets/logo/symbole.svg";
+const LOGOS = {
+  "vertical": LOGO_VERSION === "1.1" ? null : "assets/logo/logo-vertical.svg",
+  "horizontal": LOGO_VERSION === "1.1" ? null : "assets/logo/logo-horizontal.svg",
+  "horizontal-neg": LOGO_VERSION === "1.1" ? null : "assets/logo/logo-horizontal-negatif.svg",
+  "icon": "assets/logo/icone-app.svg", "icon-dark": "assets/logo/icone-app-sombre.svg"
+};
+function wordmark(kind){ // logo composé en HTML (utilisé pour la v1.1)
+  const neg = kind === "horizontal-neg", vert = kind === "vertical";
+  return `<div style="display:flex;${vert?'flex-direction:column;align-items:center;gap:10px':'align-items:center;gap:10px'}">
+    <img src="${neg ? 'assets/logo/symbole-v1.1-neg.svg' : sym}" style="width:${vert?'46%':'22%'}">
+    <span style="font:800 ${vert?'52px':'44px'}/1 var(--display);letter-spacing:-.04em;color:${neg?'var(--creme)':'var(--encre)'}">Frigo<span class="mark" style="${neg?'color:var(--encre)':''}">Flash</span></span></div>`;
+}
+document.querySelectorAll("[data-logo]").forEach(el => {
+  const k = el.dataset.logo, src = LOGOS[k];
+  if (k.startsWith("icon")) { el.innerHTML = `<img src="${src}" style="width:100%;display:block">`; if (LOGO_VERSION==="1.1") el.innerHTML = `<div style="aspect-ratio:1;border-radius:22%;background:${k==='icon'?'var(--flash)':'var(--encre)'};display:grid;place-items:center"><img src="${k==='icon'?sym:'assets/logo/symbole-v1.1-neg.svg'}" style="width:68%"></div>`; return; }
+  el.innerHTML = src ? `<img src="${src}" style="width:100%;display:block">` : wordmark(k);
+});
+document.querySelectorAll("[data-name]").forEach(el => el.textContent = SPEAKERS[el.dataset.name]);
+document.querySelectorAll("[data-names]").forEach(el => el.textContent = SPEAKERS.A + " & " + SPEAKERS.B);
+
+/* ============ Pied de slide + numéros ============ */
+const slides = [...document.querySelectorAll(".slide")];
+slides.forEach((s, i) => {
+  if (i === 0) return;
+  const spk = s.dataset.spk;
+  const label = spk === "AB" ? "Les deux" : spk ? SPEAKERS[spk] : "";
+  const badge = spk ? `<span class="spk ${spk}"><i class="dot">${spk==='AB'?'':spk}</i>${label}</span>` : "";
+  const f = document.createElement("div"); f.className = "foot";
+  f.innerHTML = `<span class="brand"><img src="${s.classList.contains('on-ink') ? (LOGO_VERSION==='1.1'?'assets/logo/symbole-v1.1-neg.svg':'assets/logo/symbole-negatif.svg') : sym}" style="width:18px;height:18px">FrigoFlash</span><span class="right">${badge}<span>${String(i+1).padStart(2,"0")} / ${slides.length}</span></span>`;
+  s.appendChild(f);
+});
+
+/* ============ Graphiques ============ */
+const C = { y:"#FFD60A", m:"#3DDBA0", c:"#FF6B4A", k:"#16171D", cr:"#FFF8EC", g6:"#5E5A52", g4:"#8A847A", g2:"#E9E1D2", mut:"#bdb7ab" };
+const fmt = n => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, "\u00A0");
+const $ = id => document.getElementById(id);
+function rr(x,y,w,h,r,fill,extra=""){ // barre arrondie en haut seulement
+  r = Math.min(r, w/2, h); if (h <= 0) return "";
+  return `<path d="M${x},${y+h}V${y+r}Q${x},${y} ${x+r},${y}H${x+w-r}Q${x+w},${y} ${x+w},${y+r}V${y+h}Z" fill="${fill}" ${extra}/>`;
+}
+
+// grille de kg (slide 4) : 30 carrés, 20 pleins, 10 hachurés, 7 marqués « emballés »
+(function(){
+  let h = `<svg width="600" height="156" viewBox="0 0 600 156">`;
+  for (let i = 0; i < 30; i++) {
+    const col = i % 15, row = Math.floor(i / 15), x = col * 40, y = row * 82;
+    if (i < 20) h += `<rect x="${x}" y="${y}" width="34" height="72" rx="8" fill="${i < 7 ? C.y : C.k}" ${i<7?'stroke="#16171D" stroke-width="2"':''}/>`;
+    else h += `<rect x="${x+1}" y="${y+1}" width="32" height="70" rx="8" fill="url(#hy)" opacity=".55" stroke="#16171D" stroke-width="1.5" stroke-dasharray="4 3"/>`;
+  }
+  $("kgGrid").innerHTML = h + `</svg>`;
+})();
+// donut 1/3
+(function(){
+  const r = 30, c = 2*Math.PI*r;
+  $("donut").innerHTML = `<circle cx="37" cy="37" r="${r}" fill="none" stroke="${C.g2}" stroke-width="12"/><circle cx="37" cy="37" r="${r}" fill="none" stroke="${C.c}" stroke-width="12" stroke-dasharray="${c/3} ${c}" transform="rotate(-90 37 37)"/><text x="37" y="43" text-anchor="middle" style="font:800 17px var(--display)">1/3</text>`;
+})();
+
+// courbe des émotions (slide 9)
+(function(){
+  const pts = [[80,62,"😩 faim + flemme"],[243,50,"🤔 curiosité"],[405,30,"✨ waouh"],[568,40,"😌 soulagement"],[731,42,""],[893,26,"🎉"],[1056,22,"😎 fierté"]];
+  let d = `M${pts[0][0]},${pts[0][1]}`; for (let i=1;i<pts.length;i++){ const [x0,y0]=pts[i-1],[x1,y1]=pts[i],mx=(x0+x1)/2; d+=` C${mx},${y0} ${mx},${y1} ${x1},${y1}`; }
+  let h = `<path d="${d}" fill="none" stroke="${C.k}" stroke-width="2.5" stroke-dasharray="2 6" stroke-linecap="round"/>`;
+  pts.forEach(([x,y,t])=>{ h += `<circle cx="${x}" cy="${y}" r="5" fill="${C.y}" stroke="${C.k}" stroke-width="2"/>`; if (t) h += `<text x="${x+12}" y="${y-8}" style="font:700 12px var(--body)" fill="${C.g6}">${t}</text>`; });
+  $("emoCurve").innerHTML = h;
+})();
+
+// palette (slide 15)
+(function(){
+  const sw = [["Jaune éclair","#FFD60A","signature, CTA",C.k],["Menthe","#3DDBA0","sauvé, succès",C.k],["Corail","#FF6B4A","urgence",C.k],["Encre","#16171D","texte, contours",C.cr],["Crème","#FFF8EC","fond",C.k]];
+  $("palette").innerHTML = sw.map(([n,h,r,t])=>`<div style="background:${h};color:${t};border-radius:14px;padding:12px;display:flex;flex-direction:column;justify-content:flex-end;${h==='#FFF8EC'?'border:1.5px solid #E9E1D2':''}"><b style="font:700 14px var(--display)">${n}</b><span style="font:500 11px/1.3 var(--body);opacity:.85">${h}<br>${r}</span></div>`).join("");
+})();
+
+// carte de positionnement (slide 19)
+(function(){
+  const W=640,H=500,L=50,R=20,T=20,B=56, w=W-L-R, h=H-T-B;
+  const X = v => L + v*w, Y = v => T + (1-v)*h;
+  let s = `<rect x="${X(.5)}" y="${T}" width="${w/2}" height="${h/2}" fill="${C.y}" opacity=".18" rx="12"/>`;
+  s += `<line x1="${L}" y1="${Y(.5)}" x2="${L+w}" y2="${Y(.5)}" stroke="${C.g2}" stroke-width="2"/><line x1="${X(.5)}" y1="${T}" x2="${X(.5)}" y2="${T+h}" stroke="${C.g2}" stroke-width="2"/>`;
+  s += `<line x1="${L}" y1="${T+h}" x2="${L+w}" y2="${T+h}" stroke="${C.k}" stroke-width="2"/><line x1="${L}" y1="${T}" x2="${L}" y2="${T+h}" stroke="${C.k}" stroke-width="2"/>`;
+  s += `<text x="${L}" y="${H-24}" style="font:700 12px var(--body)" fill="${C.g6}">Tout taper</text><text x="${L+w}" y="${H-24}" text-anchor="end" style="font:700 12px var(--body)" fill="${C.g6}">Zéro saisie</text><text x="${L+w/2}" y="${H-6}" text-anchor="middle" style="font:700 13px var(--body);letter-spacing:.06em" fill="${C.k}">EFFORT DE SAISIE →</text>`;
+  s += `<text transform="translate(18 ${T+h/2}) rotate(-90)" text-anchor="middle" style="font:700 13px var(--body);letter-spacing:.06em" fill="${C.k}">ORIENTATION →</text><text transform="translate(36 ${T+h}) rotate(-90)" style="font:700 12px var(--body)" fill="${C.g6}">Inspiration</text><text transform="translate(36 ${T+80}) rotate(-90)" text-anchor="end" style="font:700 12px var(--body)" fill="${C.g6}">Anti-gaspi</text>`;
+  const pts = [
+    ["Marmiton / 750g",.14,.12,10,C.g4],["Supercook",.22,.34,10,C.g4],["Frigo Magic",.3,.5,10,C.g4],["NoWaste / Kitche",.12,.74,10,C.g4],
+    ["Jow",.58,.16,10,C.g4],["ChatGPT",.84,.24,12,C.g4],["Frigos connectés (≈ 2 000 €)",.86,.52,30,C.g4],["Too Good To Go*",.44,.86,10,"none"]
+  ];
+  pts.forEach(([n,x,y,r,f])=>{
+    s += `<circle cx="${X(x)}" cy="${Y(y)}" r="${r}" fill="${f==='none'?'#fff':f}" ${f==='none'?'stroke="#16171D" stroke-width="2" stroke-dasharray="3 3"':'opacity=".85"'}/>`;
+    const right = x > .7; s += `<text x="${X(x)+(right?-(r+6):(r+6))}" y="${Y(y)+4}" ${right?'text-anchor="end"':''} style="font:600 13px var(--body)" fill="${C.k}">${n}</text>`;
+  });
+  s += `<circle cx="${X(.9)}" cy="${Y(.88)}" r="22" fill="${C.y}" stroke="${C.k}" stroke-width="3"/><image href="${sym}" x="${X(.9)-14}" y="${Y(.88)-14}" width="28" height="28"/>`;
+  s += `<text x="${X(.9)-30}" y="${Y(.88)+5}" text-anchor="end" style="font:800 18px var(--display)" fill="${C.k}">FrigoFlash</text>`;
+  s += `<text x="${L+8}" y="${T+h-10}" style="font:500 11px var(--body)" fill="${C.g6}">* agit avant l'achat (invendus) : partenaire potentiel · taille de bulle = prix</text>`;
+  $("posMap").innerHTML = s;
+})();
+
+// projections (slide 21) : CA total vs coût IA, k€
+(function(){
+  const d = [["Année 1",60,12,"50 k actifs"],["Année 2",315,60,"250 k actifs"],["Année 3",1015,190,"800 k actifs"]];
+  const W=640,H=440,L=56,B=58,T=40, h=H-T-B, max=1100, Y=v=>T+h-(v/max)*h;
+  let s = "";
+  [0,250,500,750,1000].forEach(v=>{ s+=`<line x1="${L}" x2="${W}" y1="${Y(v)}" y2="${Y(v)}" stroke="#2f313b"/><text x="${L-10}" y="${Y(v)+4}" text-anchor="end" style="font:500 12px var(--body)" fill="${C.mut}">${fmt(v)}</text>`; });
+  const gw = (W-L)/3;
+  d.forEach(([lab,ca,ia,u],i)=>{
+    const cx = L + gw*i + gw/2, bw = 58;
+    s += rr(cx-bw-6, Y(ca), bw, Y(0)-Y(ca), 10, "url(#hy)");
+    s += rr(cx+6, Y(ia), bw, Y(0)-Y(ia), 10, "url(#hc)");
+    s += `<text x="${cx-bw/2-6}" y="${Y(ca)-10}" text-anchor="middle" style="font:800 18px var(--display)" fill="${C.y}">${fmt(ca)}</text>`;
+    s += `<text x="${cx+bw/2+6}" y="${Y(ia)-10}" text-anchor="middle" style="font:800 16px var(--display)" fill="${C.c}">${fmt(ia)}</text>`;
+    s += `<text x="${cx}" y="${H-32}" text-anchor="middle" style="font:700 14px var(--body)" fill="${C.cr}">${lab}</text><text x="${cx}" y="${H-14}" text-anchor="middle" style="font:500 12px var(--body)" fill="${C.mut}">${u}</text>`;
+  });
+  s += `<rect x="${L}" y="0" width="14" height="14" rx="4" fill="url(#hy)"/><text x="${L+20}" y="12" style="font:600 13px var(--body)" fill="${C.cr}">Chiffre d'affaires total (k€)</text>`;
+  s += `<rect x="${L+230}" y="0" width="14" height="14" rx="4" fill="url(#hc)"/><text x="${L+250}" y="12" style="font:600 13px var(--body)" fill="${C.cr}">Coût de l'IA (k€)</text>`;
+  $("projChart").innerHTML = s;
+})();
+
+// impact (slide 22) : tonnes sauvées vs CO2e
+(function(){
+  const d = [["Année 1",300,750],["Année 2",1500,3750],["Année 3",4800,12000]];
+  const W=690,H=440,L=64,B=40,T=44, h=H-T-B, max=13000, Y=v=>T+h-(v/max)*h;
+  let s = "";
+  [0,4000,8000,12000].forEach(v=>{ s+=`<line x1="${L}" x2="${W}" y1="${Y(v)}" y2="${Y(v)}" stroke="#34363f"/><text x="${L-10}" y="${Y(v)+4}" text-anchor="end" style="font:500 12px var(--body)" fill="${C.mut}">${fmt(v)}</text>`; });
+  const gw = (W-L)/3;
+  d.forEach(([lab,kg,co],i)=>{
+    const cx = L + gw*i + gw/2, bw = 62;
+    s += rr(cx-bw-6, Math.min(Y(kg), Y(0)-4), bw, Math.max(Y(0)-Y(kg),4), 10, "url(#hy)");
+    s += rr(cx+6, Y(co), bw, Y(0)-Y(co), 10, "url(#hc)");
+    s += `<text x="${cx-bw/2-6}" y="${Math.min(Y(kg),Y(0)-4)-10}" text-anchor="middle" style="font:800 17px var(--display)" fill="${C.y}">${fmt(kg)} t</text>`;
+    s += `<text x="${cx+bw/2+6}" y="${Y(co)-10}" text-anchor="middle" style="font:800 17px var(--display)" fill="${C.c}">${fmt(co)} t</text>`;
+    s += `<text x="${cx}" y="${H-12}" text-anchor="middle" style="font:700 14px var(--body)" fill="${C.cr}">${lab}</text>`;
+  });
+  s += `<rect x="${L}" y="0" width="14" height="14" rx="4" fill="url(#hy)"/><text x="${L+20}" y="12" style="font:600 13px var(--body)" fill="${C.cr}">Nourriture sauvée (t)</text>`;
+  s += `<rect x="${L+200}" y="0" width="14" height="14" rx="4" fill="url(#hc)"/><text x="${L+220}" y="12" style="font:600 13px var(--body)" fill="${C.cr}">CO₂e évité (t) · hachures = projection</text>`;
+  $("impactChart").innerHTML = s;
+})();
+
+// roadmap (slide 23)
+(function(){
+  const steps = [
+    ["Aujourd'hui","Prototype démo","Parcours complet, 11 écrans, 4 frigos, 18 recettes, hors ligne", "done"],
+    ["+ 3 mois","V1 · vraie IA","Modèle vision rapide, < 10 s photo → recettes, comptes, 5 flashs gratuits", "next"],
+    ["+ 6-9 mois","V2 · FrigoFlash+","Mémoire du frigo, rappels de péremption, frigo partagé, abonnement", "later"],
+    ["+ 12 mois","Partenariats","Drive « il te manque juste… », Too Good To Go, collectivités", "later"]
+  ];
+  let h = `<div style="position:absolute;left:0;right:0;top:21px;height:4px;background:#E9E1D2;border-radius:4px"></div><div style="position:absolute;left:0;width:14%;top:21px;height:4px;background:#16171D;border-radius:4px"></div><div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;position:relative">`;
+  steps.forEach(([w,t,d,st])=>{
+    const dot = st==="done" ? `background:${C.m};` : st==="next" ? `background:${C.y};` : `background:#fff;`;
+    h += `<div><div style="width:46px;height:46px;border-radius:50%;border:2.5px solid #16171D;${dot};display:grid;place-items:center">${st==="done"?'<i data-icon="check" data-size="22" data-stroke="3"></i>':st==="next"?'<i data-icon="zap" data-size="20"></i>':''}</div>
+      <p class="kicker" style="margin:16px 0 6px">${w}</p><div class="card ${st==='next'?'pop':''}" style="padding:16px 18px;${st==='done'?'background:#DDF8EC;box-shadow:none':''}"><h3>${t}</h3><p class="small muted" style="margin-top:6px">${d}</p></div></div>`;
+  });
+  $("roadmap").innerHTML = h + `</div>`;
+})();
+
+// pipeline (slide 25)
+(function(){
+  const W=1136, cy=96;
+  const nodes = [["Brief","Nous",C.cr,"user"],["Analyse","Agent 1",C.y,"search"],["DA","Agent 2",C.y,"sparkles"],["App","Agent 3",C.y,"refrigerator"],["Présentation","Agent 4",C.y,"chart-no-axes-column"]];
+  const crit = ["13 → 16/20","16,5/20","17,5/20","revue à venir"];
+  const xs = nodes.map((_,i)=> 70 + i*(W-140)/4), NW=128;
+  let s = "";
+  for (let i=0;i<4;i++){
+    const x0=xs[i]+NW/2, x1=xs[i+1]-NW/2, mx=(x0+x1)/2;
+    s += `<line x1="${x0}" y1="${cy}" x2="${x1-8}" y2="${cy}" stroke="${C.k}" stroke-width="3"/><path d="M${x1-12},${cy-8} L${x1},${cy} L${x1-12},${cy+8}" fill="none" stroke="${C.k}" stroke-width="3" stroke-linejoin="round"/>`;
+    if (i>0){ // relecture critique sous chaque flèche
+      s += `<path d="M${mx},${cy+6} V${cy+62}" stroke="${C.c}" stroke-width="2.5" stroke-dasharray="5 5"/>`;
+      s += `<rect x="${mx-74}" y="${cy+62}" width="148" height="34" rx="17" fill="#FFE6DE" stroke="${C.c}" stroke-width="2"/><text x="${mx}" y="${cy+84}" text-anchor="middle" style="font:700 13px var(--body)" fill="#B5371D">Critique · ${crit[i-1]}</text>`;
+    }
+  }
+  nodes.forEach(([t,sub,f,ic],i)=>{
+    const x=xs[i];
+    s += `<rect x="${x-NW/2}" y="${cy-48}" width="${NW}" height="96" rx="24" fill="${f}" stroke="${C.k}" stroke-width="2.5"/>`;
+    s += `<foreignObject x="${x-14}" y="${cy-36}" width="28" height="28"><div xmlns="http://www.w3.org/1999/xhtml" style="color:#16171D"><i data-icon="${ic}" data-size="28"></i></div></foreignObject>`;
+    s += `<text x="${x}" y="${cy+16}" text-anchor="middle" style="font:800 16px var(--display)" fill="${C.k}">${t}</text><text x="${x}" y="${cy+34}" text-anchor="middle" style="font:600 11px var(--body)" fill="${C.g6}">${sub}</text>`;
+  });
+  s += `<text x="${xs[0]}" y="18" text-anchor="middle" style="font:700 12px var(--body)" fill="${C.g6}">6 réponses de cadrage</text>`;
+  s += `<text x="${(xs[1]+xs[4])/2}" y="18" text-anchor="middle" style="font:700 12px var(--body);letter-spacing:.06em" fill="${C.g6}">CHAQUE LIVRABLE EST RELU, CORRIGÉ, PUIS TRANSMIS À L'AGENT SUIVANT</text>`;
+  $("pipeline").innerHTML = s;
+})();
+
+// notes critiques (slide 26)
+(function(){
+  const d = [["Analyse v1",13,C.g4,false],["Analyse v2",16.5,C.y,false],["DA",16.5,C.y,false],["App",17.5,C.y,false]];
+  const W=440,H=420,L=30,B=44,T=36,h=H-T-B, Y=v=>T+h-(v/20)*h;
+  let s = `<line x1="${L}" x2="${W}" y1="${Y(20)}" y2="${Y(20)}" stroke="#34363f" stroke-dasharray="4 4"/><text x="${W}" y="${Y(20)-6}" text-anchor="end" style="font:500 11px var(--body)" fill="${C.mut}">20</text>`;
+  s += `<line x1="${L}" x2="${W}" y1="${Y(10)}" y2="${Y(10)}" stroke="#34363f" stroke-dasharray="4 4"/><text x="${W}" y="${Y(10)-6}" text-anchor="end" style="font:500 11px var(--body)" fill="${C.mut}">10</text>`;
+  const gw=(W-L)/4;
+  d.forEach(([lab,v,f],i)=>{
+    const cx=L+gw*i+gw/2, bw=56;
+    s += rr(cx-bw/2, Y(v), bw, Y(0)-Y(v), 10, f);
+    s += `<text x="${cx}" y="${Y(v)-10}" text-anchor="middle" style="font:800 20px var(--display)" fill="${i?C.y:C.mut}">${String(v).replace('.',',')}${i===1?'*':''}</text>`;
+    s += `<text x="${cx}" y="${H-20}" text-anchor="middle" style="font:700 13px var(--body)" fill="${C.cr}">${lab}</text>`;
+  });
+  s += `<text x="${L}" y="${H-2}" style="font:500 11px var(--body)" fill="${C.mut}">* note visée après corrections (16-17/20)</text>`;
+  $("scoreChart").innerHTML = s;
+})();
+
+FFIcons.render();
+// typographie française : espaces insécables avant : ; ? ! » % € et après «
+(function(){
+  const w = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
+  let n; while ((n = w.nextNode())) {
+    if (n.parentElement.closest("script,style")) continue;
+    n.nodeValue = n.nodeValue.replace(/ ([:;?!»%€])/g, "\u00A0$1").replace(/« /g, "«\u00A0").replace(/(\d) (kg|g|t|min|j|px|s)\b/g, "$1\u00A0$2");
+  }
+})();
+
+/* ============ Mode notes (index.html#notes) ============ */
+if (location.hash === "#notes") {
+  const sub = t => t.replaceAll("[A]", SPEAKERS.A).replaceAll("[B]", SPEAKERS.B);
+  const rows = slides.map((s,i)=>{
+    const spk = s.dataset.spk, who = spk==="AB" ? `${SPEAKERS.A} + ${SPEAKERS.B}` : spk ? SPEAKERS[spk] : "Annexe";
+    return `<article class="n"><div class="nh"><span class="nn">${String(i+1).padStart(2,"0")}</span><b>${s.dataset.title}</b><span class="spk ${spk||''}"><i class="dot">${spk==='AB'?'':spk}</i>${who}</span></div><p>${sub(s.dataset.notes||"")}</p></article>`;
+  }).join("");
+  const counts = {A:0,B:0,AB:0}; slides.forEach(s=>{ if (counts[s.dataset.spk]!==undefined) counts[s.dataset.spk]++; });
+  document.body.innerHTML = `<style>@page{size:A4;margin:16mm 16mm 18mm}html,body{background:#fff}body{padding:0;max-width:760px;margin:0 auto}.n{break-inside:avoid;padding:12px 0 14px;border-bottom:1px solid #E9E1D2}.nh{display:flex;align-items:center;gap:12px;margin-bottom:6px}.nn{font:800 20px var(--display);width:34px}.nh b{font:700 16px var(--display);flex:1}.n p{font-size:13.5px;line-height:1.5;color:#2B2D36}h1{font-size:36px;margin:0 0 6px}.intro{font-size:14px;color:#5E5A52;margin-bottom:10px}</style>
+  <h1>FrigoFlash · <span class="mark">notes de l'oral</span></h1>
+  <p class="intro">Découpage pour 2 présentateurs. ${SPEAKERS.A} : problème, concurrence, business, making-of (${counts.A} slides). ${SPEAKERS.B} : app, démo, marque, roadmap, critique (${counts.B} slides). Ensemble : ouverture et conclusion. Durée indicative : 12 à 15 min + démo de 60 s.</p>${rows}`;
+}
+</script>
+</body>
+</html>
